@@ -4,7 +4,8 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"github.com/micro/go-micro/v2/metadata"
+	//"github.com/micro/go-micro/v2/metadata"
+	"github.com/micro/micro/v3/service/context/metadata"
 	"log"
 	"strconv"
 )

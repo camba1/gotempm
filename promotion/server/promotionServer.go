@@ -4,10 +4,19 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v4"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/client"
-	"github.com/micro/go-micro/v2/metadata"
-	"github.com/micro/go-micro/v2/server"
+	//"github.com/micro/go-micro/v2/service"
+	//"github.com/micro/go-micro/v2"
+	//"github.com/micro/go-micro/v2/client"
+	//"github.com/micro/go-micro/v2/metadata"
+	//"github.com/micro/go-micro/v2/server"
+
+	microServ "github.com/micro/micro/v3/service"
+	microBroker "github.com/micro/micro/v3/service/broker"
+	"github.com/micro/micro/v3/service/client"
+	"github.com/micro/micro/v3/service/context/metadata"
+	"github.com/micro/micro/v3/service/server"
+	microStore "github.com/micro/micro/v3/service/store"
+
 	"goTemp/globalUtils"
 	"goTemp/promotion/proto"
 	pb "goTemp/user/proto"
@@ -138,14 +147,19 @@ func loadConfig() {
 func main() {
 
 	// instantiate service
-	service := micro.NewService(
-		micro.Name(serviceName),
-		micro.WrapHandler(AuthWrapper),
-		// micro.Store(redis.NewStore()),
+	//service := micro.NewService(
+	//	micro.Name(serviceName),
+	//	micro.WrapHandler(AuthWrapper),
+	//	// micro.Store(redis.NewStore()),
+	//)
+
+	service := microServ.New(
+		microServ.Name(serviceName),
+		microServ.WrapHandler(AuthWrapper),
 	)
 
 	// initialize plugins (this is just needed for stores)
-	initPlugins()
+	//initPlugins()
 
 	service.Init()
 	err := proto.RegisterPromotionSrvHandler(service.Server(), new(Promotion))
@@ -157,7 +171,8 @@ func main() {
 	loadConfig()
 
 	// init the cache store
-	glCache.Store = service.Options().Store
+	//glCache.Store = service.Options().Store
+	glCache.Store = microStore.DefaultStore
 	glCache.SetDatabaseName(serviceName)
 	defer glCache.Store.Close()
 
@@ -166,7 +181,8 @@ func main() {
 	defer conn.Close(context.Background())
 
 	// setup the nats broker
-	mb.Br = service.Options().Broker
+	//mb.Br = service.Options().Broker
+	mb.Br = microBroker.DefaultBroker
 	defer mb.Br.Disconnect()
 
 	//  Run Service

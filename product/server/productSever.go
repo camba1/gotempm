@@ -4,10 +4,19 @@ import (
 	"context"
 	"fmt"
 	adb "github.com/arangodb/go-driver"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/client"
-	"github.com/micro/go-micro/v2/metadata"
-	"github.com/micro/go-micro/v2/server"
+	//"github.com/micro/go-micro/v2"
+
+	//"github.com/micro/go-micro/v2"
+	//"github.com/micro/go-micro/v2/client"
+	//"github.com/micro/go-micro/v2/metadata"
+	//"github.com/micro/go-micro/v2/server"
+
+	microServ "github.com/micro/micro/v3/service"
+	microBroker "github.com/micro/micro/v3/service/broker"
+	"github.com/micro/micro/v3/service/client"
+	"github.com/micro/micro/v3/service/context/metadata"
+	"github.com/micro/micro/v3/service/server"
+
 	"goTemp/globalUtils"
 	"goTemp/globalerrors"
 	"goTemp/product/proto"
@@ -163,9 +172,14 @@ func loadConfig() {
 }
 func main() {
 	// instantiate service
-	service := micro.NewService(
-		micro.Name(serviceName),
-		micro.WrapHandler(AuthWrapper),
+	//service := micro.NewService(
+	//	micro.Name(serviceName),
+	//	micro.WrapHandler(AuthWrapper),
+	//)
+
+	service := microServ.New(
+		microServ.Name(serviceName),
+		microServ.WrapHandler(AuthWrapper),
 	)
 
 	service.Init()
@@ -183,7 +197,8 @@ func main() {
 	// defer conn.Close(context.Background())
 
 	// setup the nats broker
-	mb.Br = service.Options().Broker
+	//mb.Br = service.Options().Broker
+	mb.Br = microBroker.DefaultBroker
 	defer mb.Br.Disconnect()
 
 	//  Run Service

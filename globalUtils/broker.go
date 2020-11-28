@@ -4,7 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	"github.com/micro/go-micro/v2/broker"
+	//"github.com/micro/go-micro/v2/broker"
+	"github.com/micro/micro/v3/service/broker"
 	"log"
 )
 
@@ -72,10 +73,16 @@ func (mb *MyBroker) SubToMsg(subHandler broker.Handler, topic string, queueName 
 	}
 	log.Printf("Subscribed to queue: %s, queue: %s", topic, queueName)
 	return nil
+
 }
 
 // GetMsg breaks the message from the broker into its three component parts
-func (mb *MyBroker) GetMsg(p broker.Event) (string, map[string]string, []byte, error) {
-	fmt.Printf("Received message for subscription Topic %s: %v\n", p.Topic(), p.Message().Header)
-	return p.Topic(), p.Message().Header, p.Message().Body, nil
+//func (mb *MyBroker) GetMsg(p broker.Event) (string, map[string]string, []byte, error) {
+func (mb *MyBroker) GetMsg(p *broker.Message) (string, map[string]string, []byte, error) {
+	//fmt.Printf("Received message for subscription Topic %s: %v\n", p.Topic(), p.Message().Header)
+	fmt.Printf("Received message for subscription Topic %s: %v\n", "", p.Header)
+	//return p.Topic(), p.Message().Header, p.Message().Body, nil
+	// TODO: GET THE CORRECT TOPIC
+	return "CHANGEME", p.Header, p.Body, nil
+
 }

@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/micro/go-micro/v2/client"
+	//"github.com/micro/go-micro/v2/client"
+	"github.com/micro/micro/v3/service/client"
 	custServ "goTemp/customer/proto"
 	"log"
 )

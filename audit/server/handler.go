@@ -5,7 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jackc/pgx"
-	"github.com/micro/go-micro/v2/broker"
+	//"github.com/micro/go-micro/v2/broker"
+	"github.com/micro/micro/v3/service/broker"
 	"goTemp/audit/server/statements"
 	"goTemp/globalUtils"
 	"goTemp/globalerrors"
@@ -31,7 +32,9 @@ func (a *AuditSrv) SubsToBrokerInsertMsg() error {
 }
 
 //processBrokerMessage extracts the topic, header and message payload from the message received from the broker
-func (a *AuditSrv) processBrokerMessage(p broker.Event) error {
+//func (a *AuditSrv) processBrokerMessage(p broker.Event) error {
+func (a *AuditSrv) processBrokerMessage(p *broker.Message) error {
+
 	log.Printf("Extracting received message")
 	topic, header, message, err := mb.GetMsg(p)
 	if err != nil {

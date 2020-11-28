@@ -5,12 +5,18 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/metadata"
+
+	//"github.com/micro/go-micro/v2"
+	//"github.com/micro/go-micro/v2/metadata"
+	microServ "github.com/micro/micro/v3/service"
+	"github.com/micro/micro/v3/service/context/metadata"
 	pb "goTemp/user/proto"
 	"log"
 	"time"
 )
+
+// serviceClientName service client identifier
+const serviceClientName = "user.client"
 
 // serviceNameUser service identifier for user service
 const serviceNameUser = "goTemp.api.user"
@@ -200,9 +206,14 @@ func loginUser(srvClient pb.UserSrvService) (context.Context, error) {
 func main() {
 
 	// define service
-	service := micro.NewService(
-		micro.Name("user.client"),
+	//service := micro.NewService(
+	//	micro.Name("user.client"),
+	//)
+
+	service := microServ.New(
+		microServ.Name(serviceClientName),
 	)
+
 	service.Init()
 	fmt.Println("Client Running")
 	srvClient := pb.NewUserSrvService(serviceNameUser, service.Client())

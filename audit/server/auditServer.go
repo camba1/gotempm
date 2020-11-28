@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 	"github.com/jackc/pgx/v4"
-	"github.com/micro/go-micro/v2"
+	microBroker "github.com/micro/micro/v3/service/broker"
+
+	//"github.com/micro/go-micro/v2"
+	microServ "github.com/micro/micro/v3/service"
 	"goTemp/globalUtils"
 	"goTemp/globalerrors"
 	"log"
@@ -90,9 +93,13 @@ func connectToDB() *pgx.Conn {
 func main() {
 
 	//instantiate service
-	service := micro.NewService(
-		micro.Name(serviceName),
-		//micro.WrapHandler(AuthWrapper),
+	//service := micro.NewService(
+	//	micro.Name(serviceName),
+	//	//micro.WrapHandler(AuthWrapper),
+	//)
+	service := microServ.New(
+		microServ.Name(serviceName),
+		//microServ.WrapHandler(AuthWrapper),
 	)
 
 	service.Init()
@@ -106,7 +113,8 @@ func main() {
 	defer conn.Close(context.Background())
 
 	//setup the nats broker
-	mb.Br = service.Options().Broker
+	//mb.Br = service.Options().Broker
+	mb.Br = microBroker.DefaultBroker
 	defer mb.Br.Disconnect()
 
 	//topic := "test"
