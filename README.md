@@ -1,5 +1,6 @@
 # goTemp
 
+[![Lint](https://goreportcard.com/badge/bitbucket.org/Bolbeck/gotempgm)](https://goreportcard.com/report/bitbucket.org/Bolbeck/gotempgm)
 
 goTemp is a full stack Golang microservices sample application built using go-micro.
 
