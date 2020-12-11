@@ -186,19 +186,38 @@ services:
     command: ["sh", "-c", "redis-server", "--appendonly", "yes", "--requirepass", "$${REDIS_PASS}"]
     ports:
       - "6379:6379"
-  microapi:
-    image: micro/micro:v2.9.3
-    container_name: microcont
-    command: api --handler=rpc --namespace=goTemp.api
+#  microapi:
+#    image: micro/micro:v2.9.3
+#    container_name: microcont
+#    command: api --handler=rpc --namespace=goTemp.api
+#    ports:
+#    - "8080:8080"
+  microserver:
+    build:
+      context: ./micro
+      dockerfile: Dockerfile
+    container_name: microservercont
+    command: server
     ports:
-    - "8080:8080"
+      - "8080-8081:8080-8081/tcp"
+    volumes:
+    - ./audit:/goTemp/audit
+    - ./customer:/goTemp/customer
+    - ./globalerrors:/goTemp/globalerrors
+    - ./globalProtos:/goTemp/globalProtos
+    - ./globalUtils:/goTemp/globalUtils
+    - ./product:/goTemp/product
+    - ./promotion:/goTemp/promotion
+    - ./user:/goTemp/user
+    - ./go.mod:/goTemp/go.mod
+    - ./Makefile:/goTemp/Makefile
   web:
     build:
       context: ./web
       dockerfile: Dockerfile
       target: Dev
     depends_on:
-      - microapi
+      - microserver
     container_name: gtweb
     env_file: ./web/docker-compose.env
     volumes:
