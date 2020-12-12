@@ -58,6 +58,7 @@ const (
 const (
 	cacheUnableToWrite       SrvError = "Unable to write to cache with key %s. Error: %v\n"
 	cacheDBNameNotSet        SrvError = "Cache Database Name is not set. Please provide a value\n"
+	cacheEnvVarAddressNotSet SrvError = "Cache Address not found. PLease provide a MICRO_STORE_ADDRESS environment variable with the address"
 	cacheUnableToReadVal     SrvError = "Unable to read key %v. Error: %v\n"
 	cacheUnableToDeleteVal   SrvError = "Unable to delete key %v from cache. Error %v\n"
 	cacheTooManyValuesToList SrvError = "Requested too many keys to list from cache. Max number is %d\n"
@@ -221,4 +222,9 @@ func (ge *SrvError) CacheTooManyValuesToList(maxValues int) string {
 // CacheListError returns relevant error based on the provided parameters
 func (ge *SrvError) CacheListError(err error) string {
 	return fmt.Sprintf(string(cacheListError), err)
+}
+
+// CacheEnvVarAddressNotSet returns relevant error based on the provided parameters
+func (ge *SrvError) CacheEnvVarAddressNotSet() string {
+	return fmt.Sprintf(string(cacheEnvVarAddressNotSet))
 }
