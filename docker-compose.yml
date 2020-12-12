@@ -207,6 +207,7 @@ services:
     - ./globalerrors:/goTemp/globalerrors
     - ./globalProtos:/goTemp/globalProtos
     - ./globalUtils:/goTemp/globalUtils
+    - ./globalCache:/goTemp/globalCache
     - ./product:/goTemp/product
     - ./promotion:/goTemp/promotion
     - ./user:/goTemp/user
