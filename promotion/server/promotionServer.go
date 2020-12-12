@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v4"
+	"goTemp/globalCache"
+
 	//"github.com/micro/go-micro/v2/service"
 	//"github.com/micro/go-micro/v2"
 	//"github.com/micro/go-micro/v2/client"
@@ -40,6 +42,8 @@ const (
 	dbName = "postgres"
 	// dbConStrEnvVarName Name of Environment variable that contains connection string to DB
 	dbConStrEnvVarName = "POSTGRES_CONNECT"
+	// cacheAddressEnvVarName Name of the environment variable that holds connection string to cache engine
+	cacheAddressEnvVarName = "MICRO_STORE_ADDRESS"
 )
 
 // Other constants
@@ -50,8 +54,11 @@ const (
 // conn Database connection
 var conn *pgx.Conn
 
-// enableAuditRecords allows all insert,update,delete records to be sent out to the broker for forwarding to
+// glDisableAuditRecords allows all insert,update,delete records to be sent out to the broker for forwarding to
 var glDisableAuditRecords = false
+
+// glCacheAddress
+var glCacheAddress string
 
 // glCache Store to hold cached values
 var glCache globalUtils.Cache
@@ -142,16 +149,15 @@ func loadConfig() {
 	} else {
 		glDisableAuditRecords = false
 	}
+
+	glCacheAddress = os.Getenv(cacheAddressEnvVarName)
+
 }
 
 func main() {
 
-	// instantiate service
-	//service := micro.NewService(
-	//	micro.Name(serviceName),
-	//	micro.WrapHandler(AuthWrapper),
-	//	// micro.Store(redis.NewStore()),
-	//)
+	// Load configuration
+	loadConfig()
 
 	service := microServ.New(
 		microServ.Name(serviceName),
@@ -161,17 +167,20 @@ func main() {
 	// initialize plugins (this is just needed for stores)
 	//initPlugins()
 
+	if glCacheAddress == "" {
+		log.Fatal(glErr.CacheEnvVarAddressNotSet())
+	}
+	microStore.DefaultStore = globalCache.NewStore(microStore.Nodes(glCacheAddress))
+
 	service.Init()
 	err := proto.RegisterPromotionSrvHandler(service.Server(), new(Promotion))
 	if err != nil {
 		log.Fatalf(glErr.SrvNoHandler(err))
 	}
 
-	// Load configuration
-	loadConfig()
-
 	// init the cache store
 	//glCache.Store = service.Options().Store
+
 	glCache.Store = microStore.DefaultStore
 	glCache.SetDatabaseName(serviceName)
 	defer glCache.Store.Close()
