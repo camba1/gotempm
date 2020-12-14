@@ -2,12 +2,14 @@
 
 [![Lint](https://goreportcard.com/badge/bitbucket.org/Bolbeck/gotempgm)](https://goreportcard.com/report/bitbucket.org/Bolbeck/gotempgm)
 
-goTemp is a full stack Golang microservices sample application built using go-micro.
+**goTemp** is a full stack Golang microservices sample application built on top of the Micro platform.
+Note that the original goTemp, which was built directly on go-Micro, gas been renamed to **goTempGM** and can be found in the [goTempGM repo](https://bitbucket.org/Bolbeck/gotempgm/).
+It is worth noting that Micro itself uses go-Micro as it undelying framework.
 
 In it current incarnation (this is wip), this mono-repo uses the following stack as backend:
 
 - `Golang` as its main implementation technology
-- `go-Micro` as the micro service framework
+- `Micro` as the microservices platform running our services
 - `gRPC` for inter-service real time communication
 - `NATS` for Pub/Sub event driven communication
 - `multicast DNS` for service registration and discovery 
@@ -29,11 +31,11 @@ In terms of the web front end, the stack is as follows:
 
 Below is a diagram that displays the overall setup of the application:
 
-![Diagram showing goTemp components](diagramsforDocs/goTemp_Diagram_V5.png)
+![Diagram showing goTemp components](diagramsforDocs/goTemp_Diagram-micro-v1.png)
 
 In a nutshell. the application functionality is as follows in the backend:
 
-- The frontend connects to the different services through the API gateway
+- The frontend connects to the different services through the Micro API gateway
 - For each service the frontend provides:
     - Search page
     - Detail page
@@ -63,13 +65,13 @@ Before running the application the first time:
 
 To start the application:
 
-- Ensure that Docker is installed and running. Then, run the following command from a terminal in the goTemp root folder:
+- Ensure that Docker is installed and running. Then, execute the following command from a terminal in the goTemp root folder:
 
 ```bash
-   make start
+   make microup
 ```
 
-Depending on whether you have run the application before, docker may have to download all the dependent images (PostgreSql, TimescaleDB, Nodejs, etc).
+Depending on whether you have run the application before, docker may have to download all the dependent images (Micro, PostgreSql, TimescaleDB, Nodejs, etc).
 This may take a while depending on your internet connection speed. Once everything has been downloaded and started, you should see a message in the terminal indicating that the application is listening at localhost:3000.
 At that point, yo can open your browser and navigate to:
 ```
@@ -163,9 +165,11 @@ Currently, we have the following:
 - `cicd` : Holds files related to CI/CD and orchestration
 - `customer`: Customer master data service
 - `diagramforDocs`: Diagrams used in the readme documents
+- `globalCache` : Enables Micro to use Redis as a cache store which can then be used in our services
 - `globalErrors`: Generic errors shared package
 - `globalProtos`: Generic protobuf message definitions shared across packages
 - `globalUtils`: Generic utilities shared package
+- `micro` : Hosts the custom Dockerfile that is used to run Micro.
 - `nats`: NATS dockerfile and configuration
 - `postgres`: Volumes mounted to the PostgreSQL DB container as well as data initialization scripts
 - `product`: Product master data service
@@ -188,12 +192,11 @@ Additionally, we have the following files in the root directory as well:
 
 ### Services
 
-We use `go-micro` as the main GO microservices framework. Using go-micro simplifies many of the tasks associated with building 
-micro services including (but not limited to):
+We use `Micro` as the main GO microservices platform. Using Micro simplifies many of the tasks associated with building 
+microservices including (but not limited to):
 
 - Service discovery
 - gRPC for inter service communication
-- Pluggable interfaces to popular software applications like NATS and Redis
 - Built in async messaging (in our case used to set up pub/sub messages to NATS )
 - Built-in data storage interface (in our case used to interact with Redis)
 - API gateway:
@@ -214,32 +217,49 @@ Each one of the services has a similar structure:
 - `docker-compose.env`: Environment variable required to run the service when running the service with docker-compose
 - `docker-compose-cli.env`: Environment variable required to run the client when running the client with docker-compose
 
-##### Building
-
-The different service's images can be built from the root of the repo using the docker build command. 
-For example the user service can be built using:
-
-`docker build -t usersrv -f user/Dockerfile . `
-
-Note that there is no need to run this if you are using docker-compose as that will build the image automatically
-
 ##### Running individual services
 
-The services are designed to run in containers, and the easiest way to run them is to bring them up using docker-compose:
-As an example we will run the user service with the commands below in a terminal:
+###### Starting the service
 
-`docker-compose up usersrv`
+The services must be started using Micro run. Since we are using the Dockerized version of Micro, we can start a service as follows:
 
-This will bring up the user service, the postgreSQL DB and NATS
-Then to run some data through the service, we can start the user client in a new terminal:
+If Micro is not already running:
 
-`docker-compose up usercli`
+`make microserveup`
 
-This will bring up run the client service which will attempt to create,update and delete a user. The results will be printed in the console.
+This will start Micro as well as all the DBs used by goTemp.
+Get into the Micro container, if not in it already:
+
+`docker exec -it microservercont bash`
+
+_Note: all the commands below must be run within the Micro container_
+
+Start the service:
+
+`make micro<serviceName>`
+
+where <serviceName> can be usersrv, auditsrv, customersrv, productsrv or promotionsrv.
+
+###### Testing the service
+
+To run some data through a service once it is started, we can run the service client:
+
+`micro run --name <serviceClientName> <serviceFolder>/client`
+
+where <serviceClientName> can be usercli, auditcli, customercli, productcli or promotioncli.
+For example, we could start the user client as follows:
+
+`micro run --name usercli user/client`
+
+This will bring up run the client service which will attempt to create,update and delete a user. 
+The results will be printed to the log. To see the logs, run:
+
+`micro logs -f <serviceOrClientName>`
+
 The server user service will update the DB as necessary and send the updated information to the broker (NATS) so that 
 the audit service may eventually store it in the time series DB. The audit service can be started using:
 
-`docker-compose up auditsrv`
+`make microauditsrv`
 
 #### Databases Initialization
 
