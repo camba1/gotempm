@@ -126,11 +126,31 @@ decode:
 
 microserve:
 	micro server
+
 micrologin:
 	micro login --username admin --password micro
+
 microserveup:
 	docker-compose up -d microserver
-	micro login --username admin --password micro
+	docker-compose up -d pgdb timescaledb redis arangodb nats
+	sleep 20s
+	docker exec microservercont  make  micrologin
+
+microusersrv:
+	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/appuser?application_name=userSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name usersrv  user/server
+
+microauditsrv:
+	micro run --env_vars DB_CONNECT=postgresql://postgres:TestDB@home2@timescaledb/postgres?application_name=auditSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@localhost --name auditsrv audit/server
+
+microproductsrv:
+	micro run --env_vars DB_ADDRESS=arangodb:8529,DB_USER=productUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name productsrv product/server
+
+microcustomersrv:
+	micro run --env_vars DB_ADDRESS=arangodb:8529,DB_USER=customerUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name customersrv customer/server
+
+micropromotionsrv:
+	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/postgres?application_name=promotionSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis,MICRO_STORE_ADDRESS=redis://:TestDB@home2@redis:6379 --name promotionsrv  promotion/server
+
 microstartsrvs:
 	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/appuser?application_name=userSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name usersrv  user/server
 	sleep 12s
@@ -141,6 +161,7 @@ microstartsrvs:
 	micro run --env_vars DB_ADDRESS=arangodb:8529,DB_USER=customerUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name customersrv customer/server
 	sleep 12s
 	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/postgres?application_name=promotionSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis,MICRO_STORE_ADDRESS=redis://:TestDB@home2@redis:6379 --name promotionsrv  promotion/server
+
 microup:
 	docker-compose up -d microserver
 	docker-compose up -d pgdb timescaledb redis arangodb nats
