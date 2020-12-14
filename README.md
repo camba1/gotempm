@@ -232,8 +232,6 @@ Get into the Micro container, if not in it already:
 
 `docker exec -it microservercont bash`
 
-_Note: all the commands below must be run within the Micro container_
-
 Start the service:
 
 `make micro<serviceName>`
@@ -241,6 +239,8 @@ Start the service:
 where <serviceName> can be usersrv, auditsrv, customersrv, productsrv or promotionsrv.
 
 ###### Testing the service
+
+_Note: all the commands below must be run within the Micro container_
 
 To run some data through a service once it is started, we can run the service client:
 
