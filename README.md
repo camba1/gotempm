@@ -3,8 +3,8 @@
 [![Lint](https://goreportcard.com/badge/bitbucket.org/Bolbeck/gotempm)](https://goreportcard.com/report/bitbucket.org/Bolbeck/gotempm)
 
 **goTempM** is a full stack Golang microservices sample application built on top of the Micro platform.
-Note that the original goTempM, which was built directly on go-Micro, gas been renamed to **goTempM** and can be found in the [goTempM repo](https://bitbucket.org/Bolbeck/gotempm/).
-It is worth noting that Micro itself uses go-Micro as it undelying framework.
+Note that the original goTemp, which is built directly on the go-Micro framework, is still available and can be found in the [goTemp repo](https://bitbucket.org/Bolbeck/gotemp/).
+It is worth noting that Micro itself uses go-Micro as its underlying framework.
 
 In it current incarnation (this is wip), this mono-repo uses the following stack as backend:
 
@@ -312,10 +312,10 @@ The configuration for all other microservices, beyond the shared ingress and API
 
 #### Organization
 
-The K8s files live in the `./cicd/K8s` folder and it is organized as follows:
+The K8s files live in the `./cicd/K8s` folder which is organized as follows:
 
 - Clients : These are the test clients for each of the services. 
-- Ingress: Manifest to create the ingress resource that allows the front end and the back end to communicate
+- Ingress: Manifest to create the ingress resource that allows the front and back ends to communicate
 - Services : Contains all the services and related entities manifest (deployment, service, etc...). It also contains the manifests for the related databases.
 - web: Manifest for the web front end and the API gateway
 
