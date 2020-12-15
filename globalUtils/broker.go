@@ -82,7 +82,7 @@ func (mb *MyBroker) GetMsg(p *broker.Message) (string, map[string]string, []byte
 	//fmt.Printf("Received message for subscription Topic %s: %v\n", p.Topic(), p.Message().Header)
 	fmt.Printf("Received message for subscription Topic %s: %v\n", "", p.Header)
 	//return p.Topic(), p.Message().Header, p.Message().Body, nil
-	// TODO: GET THE CORRECT TOPIC
+	//topic is not provided in Micro V3
 	return "CHANGEME", p.Header, p.Body, nil
 
 }

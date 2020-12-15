@@ -40,6 +40,7 @@ func (a *AuditSrv) processBrokerMessage(p *broker.Message) error {
 	if err != nil {
 		return err
 	}
+	topic = serviceName
 	log.Printf("Converting received message")
 	headerStruct, err := globalUtils.AuditMsgHeaderToStruct(header)
 	if err != nil {
