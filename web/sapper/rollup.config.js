@@ -11,7 +11,7 @@ const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 // const apiUrl = process.env.APIURL;
-const apiUrl = process.env.APIURL || "http://gotemp.tst/";
+const apiUrl = process.env.APIURL || "http://gotempM.tst/";
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 

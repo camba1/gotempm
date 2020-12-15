@@ -23,7 +23,7 @@ docrunpromosrv:
 	docker run --env-file ./promotion/docker-compose.env -p 50051:50051 --name promosrvcont promosrv
 # run and attach to existing network
 docrunusersrvnet:
-	docker run --env-file ./user/docker-compose.env --network=gotemp_default  -p 50051:50051 --name usersrvcont usersrv
+	docker run --env-file ./user/docker-compose.env --network=goTempM_default  -p 50051:50051 --name usersrvcont usersrv
 docbuildpromocli:
 	docker build -t promocli -f promotion/DockerfileCli .
 docrunpromocli:
@@ -32,13 +32,13 @@ docrunpromocli:
 #DockerHub
 hubpush:
 	docker build -t $$SERVICE -f  $$FOLDER/Dockerfile .
-	docker tag $$SERVICE bolbeck/gotemp_$$SERVICE
-	docker push bolbeck/gotemp_$$SERVICE
+	docker tag $$SERVICE bolbeck/goTempM_$$SERVICE
+	docker push bolbeck/goTempM_$$SERVICE
 
 hubpushcontext:
 	docker build -t $$SERVICE -f  ./$$FOLDER/Dockerfile ./$$FOLDER
-	docker tag $$SERVICE bolbeck/gotemp_$$SERVICE
-	docker push bolbeck/gotemp_$$SERVICE
+	docker tag $$SERVICE bolbeck/goTempM_$$SERVICE
+	docker push bolbeck/goTempM_$$SERVICE
 
 # Run service directly
 runpromosrv:
@@ -53,9 +53,9 @@ runpromocli:
 
 # Docker
 docbuildweb:
-	docker build -t gotempweb -f ./web/Dockerfile ./web
+	docker build -t goTempMweb -f ./web/Dockerfile ./web
 docrunweb:
-	docker run -p 3000:3000 --name gotempwebcont gotempweb
+	docker run -p 3000:3000 --name goTempMwebcont goTempMweb
 
 #Docker-compose
 composeupweb:
@@ -84,7 +84,7 @@ promoviaapigateway:
 
 # Call service using the micro gateway running behind the ingress in K8s
 authviaapigateway:
-	curl --location --request POST 'http://gotemp.tst/user/userSrv/auth' \
+	curl --location --request POST 'http://goTempM.tst/user/userSrv/auth' \
 	--header 'Content-Type: application/json' \
 	--data-raw '{"pwd":"1234","email":"duck@mymail.com"}'
 

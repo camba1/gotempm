@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"goTemp/globalUtils"
-	pb "goTemp/user/proto"
+	"goTempM/globalUtils"
+	pb "goTempM/user/proto"
 	"reflect"
 	"testing"
 )

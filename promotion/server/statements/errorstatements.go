@@ -2,7 +2,7 @@ package statements
 
 import (
 	"fmt"
-	"goTemp/globalUtils"
+	"goTempM/globalUtils"
 	"log"
 	"time"
 )

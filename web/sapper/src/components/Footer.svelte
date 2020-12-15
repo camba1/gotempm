@@ -9,10 +9,10 @@
     import Row  from "sveltestrap/src/Row.svelte"
 
     // Data for footer
-    let header = "goTemp";
+    let header = "goTempM";
     let osTechList = ["GO", "go-Micro", "Svelte", "NATS"];
     let dbTechList = ["ArangoDB", "PostgreSQL", "Redis", "TimescaleDB"];
-    let description = "This project provides a sample microservices implementation. goTemp was built by Juan Peredo at ";
+    let description = "This project provides a sample microservices implementation. goTempM was built by Juan Peredo at ";
     let bolbeck = {label:"Bobleck.com", address: "https://www.bolbeck.com"}
 
 </script>

@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"goTemp/customer/proto"
-	"goTemp/globalProtos"
-	"goTemp/globalUtils"
-	"goTemp/globalerrors"
+	"goTempM/customer/proto"
+	"goTempM/globalProtos"
+	"goTempM/globalUtils"
+	"goTempM/globalerrors"
 	"log"
 	"strconv"
 	"time"

@@ -26,8 +26,8 @@ services:
     entrypoint: CompileDaemon --build="go build -o promotionServer ./promotion/server/" --command=./promotionServer
     env_file: ./promotion/docker-compose.env
     volumes:
-      - ./promotion/server:/go/src/goTemp/promotion/server
-      - ./globalUtils:/go/src/goTemp/globalUtils
+      - ./promotion/server:/go/src/goTempM/promotion/server
+      - ./globalUtils:/go/src/goTempM/globalUtils
     ports:
       - "50051:50051"
   promotioncli:
@@ -41,7 +41,7 @@ services:
     env_file: ./promotion/docker-compose-cli.env
     entrypoint: CompileDaemon --build="go build -o promotionClient ./promotion/client/" --command=./promotionClient
     volumes:
-      - ./promotion/client:/go/src/goTemp/promotion/client
+      - ./promotion/client:/go/src/goTempM/promotion/client
     ports:
       - "50052:50051"
   usersrv:
@@ -56,8 +56,8 @@ services:
     entrypoint: CompileDaemon --build="go build -o userServer ./user/server/" --command=./userServer
     env_file: ./user/docker-compose.env
     volumes:
-      - ./user/server:/go/src/goTemp/user/server
-      - ./globalUtils:/go/src/goTemp/globalUtils
+      - ./user/server:/go/src/goTempM/user/server
+      - ./globalUtils:/go/src/goTempM/globalUtils
     ports:
       - "50053:50053"
   usercli:
@@ -69,7 +69,7 @@ services:
     env_file: ./user/docker-compose-cli.env
     entrypoint: CompileDaemon --build="go build -o userClient ./user/client/" --command=./userClient
     volumes:
-      - ./user/client:/go/src/goTemp/user/client
+      - ./user/client:/go/src/goTempM/user/client
     ports:
       - "50054:50051"
   auditsrv:
@@ -84,8 +84,8 @@ services:
     entrypoint: CompileDaemon --build="go build -o auditServer ./audit/server/" --command=./auditServer
     env_file: ./audit/docker-compose.env
     volumes:
-      - ./audit/server:/go/src/goTemp/audit/server
-      - ./globalUtils:/go/src/goTemp/globalUtils
+      - ./audit/server:/go/src/goTempM/audit/server
+      - ./globalUtils:/go/src/goTempM/globalUtils
     ports:
       - "50055:50055"
   customersrv:
@@ -101,8 +101,8 @@ services:
     entrypoint: CompileDaemon --build="go build -o customerServer ./customer/server/" --command=./customerServer
     env_file: ./customer/docker-compose.env
     volumes:
-      - ./customer/server:/go/src/goTemp/customer/server
-      - ./globalUtils:/go/src/goTemp/globalUtils
+      - ./customer/server:/go/src/goTempM/customer/server
+      - ./globalUtils:/go/src/goTempM/globalUtils
     ports:
       - "50057:50057"
   customercli:
@@ -114,7 +114,7 @@ services:
     env_file: ./customer/docker-compose-cli.env
     entrypoint: CompileDaemon --build="go build -o customerClient ./customer/client/" --command=./customerClient
     volumes:
-      - ./customer/client:/go/src/goTemp/customer/client
+      - ./customer/client:/go/src/goTempM/customer/client
     ports:
       - "50058:50051"
   productsrv:
@@ -130,8 +130,8 @@ services:
     entrypoint: CompileDaemon --build="go build -o productServer ./product/server/" --command=./productServer
     env_file: ./product/docker-compose.env
     volumes:
-      - ./product/server:/go/src/goTemp/product/server
-      - ./globalUtils:/go/src/goTemp/globalUtils
+      - ./product/server:/go/src/goTempM/product/server
+      - ./globalUtils:/go/src/goTempM/globalUtils
     ports:
       - "50059:50059"
   productcli:
@@ -143,7 +143,7 @@ services:
     env_file: ./product/docker-compose-cli.env
     entrypoint: CompileDaemon --build="go build -o productClient ./product/client/" --command=./productClient
     volumes:
-      - ./product/client:/go/src/goTemp/product/client
+      - ./product/client:/go/src/goTempM/product/client
     ports:
       - "50060:50051"
   nats:
@@ -190,7 +190,7 @@ services:
 #  microapi:
 #    image: micro/micro:v2.9.3
 #    container_name: microcont
-#    command: api --handler=rpc --namespace=goTemp.api
+#    command: api --handler=rpc --namespace=goTempM.api
 #    ports:
 #    - "8080:8080"
   microserver:
@@ -202,17 +202,17 @@ services:
     ports:
       - "8080-8081:8080-8081/tcp"
     volumes:
-    - ./audit:/goTemp/audit
-    - ./customer:/goTemp/customer
-    - ./globalerrors:/goTemp/globalerrors
-    - ./globalProtos:/goTemp/globalProtos
-    - ./globalUtils:/goTemp/globalUtils
-    - ./globalCache:/goTemp/globalCache
-    - ./product:/goTemp/product
-    - ./promotion:/goTemp/promotion
-    - ./user:/goTemp/user
-    - ./go.mod:/goTemp/go.mod
-    - ./Makefile:/goTemp/Makefile
+    - ./audit:/goTempM/audit
+    - ./customer:/goTempM/customer
+    - ./globalerrors:/goTempM/globalerrors
+    - ./globalProtos:/goTempM/globalProtos
+    - ./globalUtils:/goTempM/globalUtils
+    - ./globalCache:/goTempM/globalCache
+    - ./product:/goTempM/product
+    - ./promotion:/goTempM/promotion
+    - ./user:/goTempM/user
+    - ./go.mod:/goTempM/go.mod
+    - ./Makefile:/goTempM/Makefile
   web:
     build:
       context: ./web
@@ -223,7 +223,7 @@ services:
     container_name: gtweb
     env_file: ./web/docker-compose.env
     volumes:
-    - ./web/sapper/src:/goTemp/web/sapper/src
+    - ./web/sapper/src:/goTempM/web/sapper/src
     ports:
     - "3000:3000"
     - "10000:10000"

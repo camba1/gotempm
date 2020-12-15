@@ -8,7 +8,7 @@ import (
 	proto "github.com/golang/protobuf/proto"
 	_ "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/golang/protobuf/ptypes/timestamp"
-	_ "goTemp/globalProtos"
+	_ "goTempM/globalProtos"
 	math "math"
 )
 

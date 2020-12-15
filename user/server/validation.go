@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"goTemp/globalUtils"
-	"goTemp/globalerrors"
-	pb "goTemp/user/proto"
+	"goTempM/globalUtils"
+	"goTempM/globalerrors"
+	pb "goTempM/user/proto"
 	"strconv"
 )
 

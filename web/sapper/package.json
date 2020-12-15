@@ -1,6 +1,6 @@
 {
-  "name": "gotemp",
-  "description": "goTemp is a simple micro services backed application",
+  "name": "gotempm",
+  "description": "goTempM is a simple micro services backed application",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",

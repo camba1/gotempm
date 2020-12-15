@@ -11,7 +11,7 @@
 	let dbTechList = ["ArangoDB", "PostgreSQL", "Redis", "TimescaleDB"];
 	let description = "This project provides a sample full stack microservices implementation.";
 	let JPinfo = {label:"Juan Peredo", address: "https://twitter.com/juanperedotech"}
-	let repo = "https://bitbucket.org/Bolbeck/gotemp"
+	let repo = "https://bitbucket.org/Bolbeck/gotempM"
 	let frontend = {header: "Frontend", iconName: "fa-desktop", techList: ["Language: Javascript","Framework: Svelte/Sapper"]}
 	let backend = {header: "Backend", iconName: "fa-server", techList: ["Language: Go","Framework: go-Micro"]}
 	let database = {header: "Databases",
@@ -70,14 +70,14 @@
 </style>
 
 <svelte:head>
-	<title>goTemp</title>
+	<title>goTempM</title>
 </svelte:head>
 
 <section class="sectionMain" style="background-image: url('mainbackground.jpg');">
 	<Container>
 		<Row>
 			<Col class="col-lg-6 order-1 order-lg-1">
-				<img src="gotempwelcome.png" alt="Welcome to goTemp" class="img-fluid">
+				<img src="gotempMwelcome.png" alt="Welcome to goTemp" class="img-fluid">
 			</Col>
 			<Col class="col-lg-6 order-2 order-lg-2">
 				<h1>{header}</h1>

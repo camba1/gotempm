@@ -3,7 +3,7 @@ package globalUtils
 import (
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"goTemp/globalerrors"
+	"goTempM/globalerrors"
 	"log"
 	"time"
 )

@@ -7,8 +7,8 @@ import (
 
 	//"github.com/micro/go-micro/v2"
 	microServ "github.com/micro/micro/v3/service"
-	"goTemp/globalUtils"
-	"goTemp/globalerrors"
+	"goTempM/globalUtils"
+	"goTempM/globalerrors"
 	"log"
 	"os"
 )

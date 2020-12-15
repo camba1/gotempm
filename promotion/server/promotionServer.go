@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v4"
-	"goTemp/globalCache"
+	"goTempM/globalCache"
 
 	//"github.com/micro/go-micro/v2/service"
 	//"github.com/micro/go-micro/v2"
@@ -19,10 +19,10 @@ import (
 	"github.com/micro/micro/v3/service/server"
 	microStore "github.com/micro/micro/v3/service/store"
 
-	"goTemp/globalUtils"
-	"goTemp/promotion/proto"
-	pb "goTemp/user/proto"
-	userSrv "goTemp/user/proto"
+	"goTempM/globalUtils"
+	"goTempM/promotion/proto"
+	pb "goTempM/user/proto"
+	userSrv "goTempM/user/proto"
 	"log"
 	"os"
 	"strings"

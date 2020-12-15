@@ -1,5 +1,5 @@
 FROM node:alpine AS Dev
-WORKDIR /goTemp/web/sapper
+WORKDIR /goTempM/web/sapper
 COPY ./sapper/package*.json ./
 RUN npm install
 COPY ./sapper .

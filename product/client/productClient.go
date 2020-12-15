@@ -14,9 +14,9 @@ import (
 	"github.com/micro/micro/v3/service/client"
 	"github.com/micro/micro/v3/service/context/metadata"
 
-	"goTemp/globalProtos"
-	"goTemp/product/proto"
-	userSrv "goTemp/user/proto"
+	"goTempM/globalProtos"
+	"goTempM/product/proto"
+	userSrv "goTempM/user/proto"
 	"log"
 	"time"
 )

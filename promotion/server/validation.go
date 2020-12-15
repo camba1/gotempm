@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"goTemp/globalUtils"
-	"goTemp/globalerrors"
-	"goTemp/promotion/proto"
+	"goTempM/globalUtils"
+	"goTempM/globalerrors"
+	"goTempM/promotion/proto"
 	"log"
 	"strconv"
 )

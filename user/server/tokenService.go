@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	pb "goTemp/user/proto"
+	pb "goTempM/user/proto"
 	"time"
 )
 

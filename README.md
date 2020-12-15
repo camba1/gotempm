@@ -1,9 +1,9 @@
-# goTemp
+# goTempM
 
-[![Lint](https://goreportcard.com/badge/bitbucket.org/Bolbeck/gotempgm)](https://goreportcard.com/report/bitbucket.org/Bolbeck/gotempgm)
+[![Lint](https://goreportcard.com/badge/bitbucket.org/Bolbeck/gotempm)](https://goreportcard.com/report/bitbucket.org/Bolbeck/gotempm)
 
-**goTemp** is a full stack Golang microservices sample application built on top of the Micro platform.
-Note that the original goTemp, which was built directly on go-Micro, gas been renamed to **goTempGM** and can be found in the [goTempGM repo](https://bitbucket.org/Bolbeck/gotempgm/).
+**goTempM** is a full stack Golang microservices sample application built on top of the Micro platform.
+Note that the original goTempM, which was built directly on go-Micro, gas been renamed to **goTempM** and can be found in the [goTempM repo](https://bitbucket.org/Bolbeck/gotempm/).
 It is worth noting that Micro itself uses go-Micro as it undelying framework.
 
 In it current incarnation (this is wip), this mono-repo uses the following stack as backend:
@@ -31,7 +31,7 @@ In terms of the web front end, the stack is as follows:
 
 Below is a diagram that displays the overall setup of the application:
 
-![Diagram showing goTemp components](diagramsforDocs/goTemp_Diagram-micro-v1.png)
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v1.png)
 
 In a nutshell. the application functionality is as follows in the backend:
 
@@ -51,12 +51,12 @@ In a nutshell. the application functionality is as follows in the backend:
 
 ### Starting the application
 
-![goTemp landing page](diagramsforDocs/UI_goTemp_Landing_small.png "landing Page")
+![goTempM landing page](diagramsforDocs/UI_goTempM_Landing_small.png "landing Page")
 
 Before running the application the first time:
 
 - Clone the repository
-- cd into `gotemp/web/sapper`
+- cd into `gotempM/web/sapper`
 - Run the following command to generate the javascript dependencies.
 
 ```bash
@@ -65,7 +65,7 @@ Before running the application the first time:
 
 To start the application:
 
-- Ensure that Docker is installed and running. Then, execute the following command from a terminal in the goTemp root folder:
+- Ensure that Docker is installed and running. Then, execute the following command from a terminal in the goTempM root folder:
 
 ```bash
    make microup
@@ -105,7 +105,7 @@ Check the ingress is working using the command below. The command's results shou
 ##### Building and pushing images (optional)
 
 
-Out of the box, the Kubernetes manifest will pull existing Bolbeck goTemp images from Docker Hub. 
+Out of the box, the Kubernetes manifest will pull existing Bolbeck goTempM images from Docker Hub. 
 You are welcome to change the Kubernetes manifests in the `./cicd/K8s` folder to pull your own images.
 To build your own images of each service and push them to docker hub run the command below for each of the services:
 
@@ -227,7 +227,7 @@ If Micro is not already running:
 
 `make microserveup`
 
-This will start Micro as well as all the DBs used by goTemp.
+This will start Micro as well as all the DBs used by goTempM.
 Get into the Micro container, if not in it already:
 
 `docker exec -it microservercont bash`
@@ -308,7 +308,7 @@ There are three routes that do not share the structure above as they have very l
 The application configuration in K8s can be seen in the diagram below. Note that the diagram shows just one of the different microservices and its associated database.
 The configuration for all other microservices, beyond the shared ingress and API Gateway, is similar to the one depicted in the diagram.
 
-![Diagram showing goTemp components](diagramsforDocs/goTemp_Diagram-k8s.png)
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-k8s.png)
 
 #### Organization
 

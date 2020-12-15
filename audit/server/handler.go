@@ -7,9 +7,9 @@ import (
 	"github.com/jackc/pgx"
 	//"github.com/micro/go-micro/v2/broker"
 	"github.com/micro/micro/v3/service/broker"
-	"goTemp/audit/server/statements"
-	"goTemp/globalUtils"
-	"goTemp/globalerrors"
+	"goTempM/audit/server/statements"
+	"goTempM/globalUtils"
+	"goTempM/globalerrors"
 	"log"
 )
 

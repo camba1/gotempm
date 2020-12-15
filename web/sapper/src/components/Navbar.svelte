@@ -70,7 +70,7 @@
 </script>
 
 <Navbar color="light" fixed="top" light expand="md">
-    <NavbarBrand href="/">goTemp</NavbarBrand>
+    <NavbarBrand href="/">goTempM</NavbarBrand>
     <NavbarToggler on:click={() => (isOpen = !isOpen)} />
     <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
         <Nav class="ml-auto" navbar>
@@ -105,7 +105,7 @@
             {/if}
 
             <NavItem>
-                <NavLink href="https://bitbucket.org/Bolbeck/gotemp">
+                <NavLink href="https://bitbucket.org/Bolbeck/gotempM">
                    <span style="color: rgb(0, 71, 179);">
                        <i class="fab fa-bitbucket"></i>
                    </span>

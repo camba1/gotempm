@@ -1,4 +1,4 @@
-module goTemp
+module goTempM
 
 go 1.15
 

@@ -4,7 +4,7 @@ FROM golang AS Dev
 ENV CLIDIR=customer
 
 ENV CLINAME=${CLIDIR}Client
-WORKDIR /go/src/goTemp
+WORKDIR /go/src/goTempM
 RUN go get github.com/githubnemo/CompileDaemon
 ENV GO111MODULE=on
 COPY ./go.mod ./go.sum ./
@@ -31,6 +31,6 @@ ENV CLIDIR=customer
 
 ENV CLINAME=${CLIDIR}ClientAlp
 RUN apk --no-cache add ca-certificates
-WORKDIR /goTemp
-COPY --from=AlpBuild /go/src/goTemp/$CLINAME $CLINAME
+WORKDIR /goTempM
+COPY --from=AlpBuild /go/src/goTempM/$CLINAME $CLINAME
 CMD ./$CLINAME

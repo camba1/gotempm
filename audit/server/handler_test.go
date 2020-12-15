@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"goTemp/audit/server/statements"
-	"goTemp/globalUtils"
+	"goTempM/audit/server/statements"
+	"goTempM/globalUtils"
 	"reflect"
 	"testing"
 	"time"

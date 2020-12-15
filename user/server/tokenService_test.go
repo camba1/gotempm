@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/golang/protobuf/ptypes"
-	pb "goTemp/user/proto"
+	pb "goTempM/user/proto"
 	"reflect"
 	"strings"
 	"testing"

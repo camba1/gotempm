@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "goTemp/globalProtos";
+option go_package = "goTempM/globalProtos";
 
 import  "google/protobuf/timestamp.proto";
 
