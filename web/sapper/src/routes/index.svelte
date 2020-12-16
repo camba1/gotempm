@@ -13,7 +13,7 @@
 	let JPinfo = {label:"Juan Peredo", address: "https://twitter.com/juanperedotech"}
 	let repo = "https://bitbucket.org/Bolbeck/gotempM"
 	let frontend = {header: "Frontend", iconName: "fa-desktop", techList: ["Language: Javascript","Framework: Svelte/Sapper"]}
-	let backend = {header: "Backend", iconName: "fa-server", techList: ["Language: Go","Framework: go-Micro"]}
+	let backend = {header: "Backend", iconName: "fa-server", techList: ["Language: Go","Platform: Micro"]}
 	let database = {header: "Databases",
 					iconName: "fa-database",
 					techList: ["PostgreSql: Relational data storage",
