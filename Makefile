@@ -1,33 +1,3 @@
-# Start all services and the web UI. Does not start server clients
-start:
-	docker-compose up -d usersrv customersrv productsrv promotionsrv auditsrv
-	docker-compose up web
-stop:
-	docker-compose down
-
-# Docker-compose sample commands
-composeup:
-	docker-compose up
-composedown:
-	docker-compose down
-composebuildpromosrv:
-	docker-compose build promotionsrv
-composerestartpromocli:
-	docker-compose rm -fsv promotioncli
-	docker-compose up promotioncli
-
-# Docker sample commands
-docbuildpromosrv:
-	docker build -t promosrv -f promotion/Dockerfile .
-docrunpromosrv:
-	docker run --env-file ./promotion/docker-compose.env -p 50051:50051 --name promosrvcont promosrv
-# run and attach to existing network
-docrunusersrvnet:
-	docker run --env-file ./user/docker-compose.env --network=goTempM_default  -p 50051:50051 --name usersrvcont usersrv
-docbuildpromocli:
-	docker build -t promocli -f promotion/DockerfileCli .
-docrunpromocli:
-	docker run -p 50051:50051 --name promoclicont promocli
 
 #DockerHub
 hubpush:
@@ -40,14 +10,9 @@ hubpushcontext:
 	docker tag $$SERVICE bolbeck/goTempM_$$SERVICE
 	docker push bolbeck/goTempM_$$SERVICE
 
-# Run service directly
-runpromosrv:
-	go run promotion/server/promotionServer.go
-runpromocli:
-	go run promotion/client/promotionClient.go
-
 
 # Web App
+
 # Directly (dev)
 	npm run dev
 
@@ -60,7 +25,6 @@ docrunweb:
 #Docker-compose
 composeupweb:
 	docker-compose up web
-
 
 
 # Compile proto files
@@ -89,68 +53,77 @@ authviaapigateway:
 	--data-raw '{"pwd":"1234","email":"duck@mymail.com"}'
 
 # K8s
+#
+#startkub:
+#	kubectl apply -f cicd/K8s/services
+#	kubectl apply -f cicd/K8s/web
+#	kubectl apply -f cicd/K8s/ingress
+#stopkub:
+#	kubectl delete -f cicd/K8s/ingress
+#	kubectl delete -f cicd/K8s/web
+#	kubectl delete -f cicd/K8s/services
 
-startkub:
-	kubectl apply -f cicd/K8s/services
-	kubectl apply -f cicd/K8s/web
-	kubectl apply -f cicd/K8s/ingress
-stopkub:
-	kubectl delete -f cicd/K8s/ingress
-	kubectl delete -f cicd/K8s/web
-	kubectl delete -f cicd/K8s/services
 
-
-kapplyingress:
-	kubectl apply -f cicd/K8s/ingress
-kapplyservices:
-	kubectl apply -f cicd/K8s/services
-kapplyclients:
-	kubectl apply -f cicd/K8s/clients
-kapplyweb:
-	kubectl apply -f cicd/K8s/web
-kdelete:
-	kubectl delete -f $FOLDER
-
-kstartSubset:
-	kubectl apply $(ls cicd/K8s/services/audit*.yaml | awk ' { print " -f " $1 } ')
+#kapplyingress:
+#	kubectl apply -f cicd/K8s/ingress
+#kapplyservices:
+#	kubectl apply -f cicd/K8s/services
+#kapplyclients:
+#	kubectl apply -f cicd/K8s/clients
+#kapplyweb:
+#	kubectl apply -f cicd/K8s/web
+#kdelete:
+#	kubectl delete -f $FOLDER
+#
+#kstartSubset:
+#	kubectl apply $(ls cicd/K8s/services/audit*.yaml | awk ' { print " -f " $1 } ')
 
 
 # Misc
 
-encode:
-	echo -n 'data' | base64
-decode:
-	echo -n ZGF0YQ== | base64 -d
+#encode:
+#	echo -n 'data' | base64
+#decode:
+#	echo -n ZGF0YQ== | base64 -d
 
 # Micro
 
+# start micro server
 microserve:
 	micro server
 
+# Login to micro server
 micrologin:
 	micro login --username admin --password micro
 
+# Start micro container, databases and broker. Finally login to micro in the container
 microserveup:
 	docker-compose up -d microserver
 	docker-compose up -d pgdb timescaledb redis arangodb nats
 	sleep 20s
 	docker exec microservercont  make  micrologin
 
+# Start user service
 microusersrv:
 	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/appuser?application_name=userSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name usersrv  user/server
 
+# Start audit service
 microauditsrv:
 	micro run --env_vars DB_CONNECT=postgresql://postgres:TestDB@home2@timescaledb/postgres?application_name=auditSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@localhost --name auditsrv audit/server
 
+# Start product service
 microproductsrv:
 	micro run --env_vars DB_ADDRESS=arangodb:8529,DB_USER=productUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name productsrv product/server
 
+# Start customer service
 microcustomersrv:
 	micro run --env_vars DB_ADDRESS=arangodb:8529,DB_USER=customerUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name customersrv customer/server
 
+# Start promotion service
 micropromotionsrv:
 	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/postgres?application_name=promotionSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis,MICRO_STORE_ADDRESS=redis://:TestDB@home2@redis:6379 --name promotionsrv  promotion/server
 
+# Start all services at once
 microstartsrvs:
 	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/appuser?application_name=userSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false --name usersrv  user/server
 	sleep 12s
@@ -162,6 +135,7 @@ microstartsrvs:
 	sleep 12s
 	micro run --env_vars POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/postgres?application_name=promotionSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis,MICRO_STORE_ADDRESS=redis://:TestDB@home2@redis:6379 --name promotionsrv  promotion/server
 
+# Start the whole application running in containers
 microup:
 	docker-compose up -d microserver
 	docker-compose up -d pgdb timescaledb redis arangodb nats
