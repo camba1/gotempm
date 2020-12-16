@@ -13,7 +13,7 @@ var key []byte
 const TokenValidityPeriod = time.Hour * 24
 
 // ClaimIssuer ia a string representing the claim issuer
-const ClaimIssuer = "goTemp.usersrv"
+const ClaimIssuer = "goTempM.usersrv"
 
 // getKeyFromVault  checks to see if the key is populated and returns it.If key is empty, it is fetched from an external source
 func getKeyFromVault() ([]byte, error) {

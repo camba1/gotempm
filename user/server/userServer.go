@@ -19,7 +19,7 @@ import (
 )
 
 // serviceName service identifier
-const serviceName = "goTemp.api.user"
+const serviceName = "goTempM.api.user"
 
 // const serviceName = "user"
 

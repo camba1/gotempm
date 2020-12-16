@@ -26,9 +26,9 @@ const (
 	// serviceClientName service Client identifier
 	serviceClientName = "customer.client"
 	// serviceName: service identifier
-	serviceName = "goTemp.api.customer"
+	serviceName = "goTempM.api.customer"
 	// serviceNameUser: service identifier for user service
-	serviceNameUser = "goTemp.api.user"
+	serviceNameUser = "goTempM.api.user"
 )
 
 // dateLayoutISO default time format for dates entered as strings

@@ -30,11 +30,11 @@ import (
 
 const (
 	// serviceName service identifier
-	serviceName = "goTemp.api.promotion"
+	serviceName = "goTempM.api.promotion"
 	// serviceNameUser service identifier for user service
-	serviceNameUser = "goTemp.api.user"
+	serviceNameUser = "goTempM.api.user"
 	// serviceNameCustomer service identifier for customer service
-	serviceNameCustomer = "goTemp.api.customer"
+	serviceNameCustomer = "goTempM.api.customer"
 )
 
 const (
