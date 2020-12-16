@@ -80,6 +80,7 @@ At that point, yo can open your browser and navigate to:
 
 ### Running the application on Kubernetes (Minikube)
 
+#### **Getting project to run in K8s is still a work in progress**
 
 ##### Prerequisites
 
@@ -87,73 +88,7 @@ At that point, yo can open your browser and navigate to:
 
 Ensure that Minikube is installed and running.
 
-###### Ingress
 
-The application front end connects with the API gateway using via a K8s ingress resource. As such, the ingress addon must be
-enabled in Minikube.  To enabled it, run: 
-
-```bash
-    minikube addons enable ingress
-```
-Check the ingress is working using the command below. The command's results should include an entry for the ingress.
-
-```bash
-    kubectl get pods -n kube-system
-```
-
-
-##### Building and pushing images (optional)
-
-
-Out of the box, the Kubernetes manifest will pull existing Bolbeck goTempM images from Docker Hub. 
-You are welcome to change the Kubernetes manifests in the `./cicd/K8s` folder to pull your own images.
-To build your own images of each service and push them to docker hub run the command below for each of the services:
-
-```bash
-    make hubpush SERVICE=<serivceName> FOLDER=<folderName>
-```
-
-where serviceName is the name of the service for which the image should be built
-      folderName is the folder that contains the docker file used to build the service image
- 
- Example:
- 
-```bash
-     make hubpush SERVICE=usersrv FOLDER=./user
-```
-
-
-Note that for the web front end and for Timescale DB the command to be used is slightly different:
-
-
-```bash
-     make hubpushcontext SERVICE=<serivceName> FOLDER=<folderName
-```
-
-##### Running
-
-Once the ingress has been enabled, deploy the application to Minikube:
-
-```bash
-    make startkub
-```
- 
-Once the application is deployed, check the address and host assigned to the ingress:
-    
-```bash
-    kubectl get ingress
-```
-
-Note that it takes a couple of minutes for K8s to assign the IP to the ingress. As such wait for that happens before moving ahead.
-
-If this is the first time running the app in Minikube: Grab the address & the host from the 
-result of the command above, and add it to your `/etc/hosts` file.
-
-Finally, access app:
-
-```bash
-    minikube service web
-```
 
 ### Repo organization
 
@@ -305,22 +240,8 @@ There are three routes that do not share the structure above as they have very l
 
 ### Kubernetes
 
-The application configuration in K8s can be seen in the diagram below. Note that the diagram shows just one of the different microservices and its associated database.
-The configuration for all other microservices, beyond the shared ingress and API Gateway, is similar to the one depicted in the diagram.
+#### #### **Getting project to run in K8s is still a work in progress**
 
-![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-k8s.png)
-
-#### Organization
-
-The K8s files live in the `./cicd/K8s` folder which is organized as follows:
-
-- Clients : These are the test clients for each of the services. 
-- Ingress: Manifest to create the ingress resource that allows the front and back ends to communicate
-- Services : Contains all the services and related entities manifest (deployment, service, etc...). It also contains the manifests for the related databases.
-- web: Manifest for the web front end and the API gateway
-
-Note that within each of the folders, most related manifests are organized  using a prefix. 
-For example, all the front end related services start with the 'web' prefix.
 
 ### Additional information:
 
