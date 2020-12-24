@@ -19,7 +19,8 @@ import (
 const serviceClientName = "user.client"
 
 // serviceNameUser service identifier for user service
-const serviceNameUser = "goTempM.api.user"
+//const serviceNameUser = "goTempM.api.user"
+const serviceNameUser = "user"
 
 // dateLayoutISO Default time format for dates entered as strings
 const dateLayoutISO = "2006-01-02"

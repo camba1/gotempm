@@ -18,7 +18,8 @@ var glErr globalerrors.SrvError
 
 const (
 	//serviceName: Name of this service and which will be used for service discovery and registration
-	serviceName = "goTempM.api.audit"
+	//serviceName = "goTempM.api.audit"
+	serviceName = "audit"
 )
 
 const (

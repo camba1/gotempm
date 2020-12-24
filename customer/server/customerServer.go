@@ -30,9 +30,11 @@ import (
 
 const (
 	// serviceName service identifier
-	serviceName = "goTempM.api.customer"
+	//serviceName = "goTempM.api.customer"
+	serviceName = "customer"
 	// serviceNameUser service identifier for user service
-	serviceNameUser = "goTempM.api.user"
+	//serviceNameUser = "goTempM.api.user"
+	serviceNameUser = "user"
 )
 
 //DB related constants
