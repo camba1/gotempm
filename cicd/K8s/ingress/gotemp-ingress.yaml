@@ -4,14 +4,14 @@ metadata:
   name: gotemp-ingress
 spec:
   rules:
-    - host: gotemp.tst
+    - host: gotempm.tst
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: microapi
+                name: api
                 port:
-                  number: 8080
+                  number: 443
 
