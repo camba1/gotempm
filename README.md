@@ -62,6 +62,7 @@ Before running the application the first time:
 ```bash
     npm install
 ```
+#### Running with the Micro Docker image
 
 To start the application:
 
@@ -78,17 +79,89 @@ At that point, yo can open your browser and navigate to:
     http://localhost:3000
 ``` 
 
-### Running the application on Kubernetes (Minikube)
+To stop the application:
 
-#### **Getting project to run in K8s is still a work in progress**
+```bash
+    make microdown
+```
+
+#### Running on Kubernetes (Minikube) using the Micro Helm chart
+
 
 ##### Prerequisites
 
-###### Minikube
+###### Minikube & Helm
 
-Ensure that Minikube is installed and running.
+- Ensure [Micro](https://micro.mu/getting-started) is installed on the host
+- Ensure that [Minikube](https://minikube.sigs.k8s.io/docs/) is installed and running
+- Similarly, ensure that [Helm](https://helm.sh) is installed on the host.
+- Install the [Micro Helm Chart](https://artifacthub.io/packages/helm/micro/micro)
+
+###### Ingress
+
+The application front end connects with the API gateway using via a K8s ingress resource. As such, the ingress addon must be
+enabled in Minikube.  To enabled it, run:
+
+```bash
+    minikube addons enable ingress
+```
+Check the ingress is working using the command below. The command's results should include an entry for the ingress.
+
+```bash
+    kubectl get pods -n kube-system
+```
 
 
+##### Building and pushing images (optional)
+
+
+Out of the box, the Kubernetes manifest will pull existing Bolbeck goTemp images for the front end and some of the DBs from Docker Hub.
+You are welcome to change the Kubernetes manifests in the `./cicd/K8s` folder to pull your own images.
+To build your own image of the front end and push it to docker hub run the command below for each of the services:
+
+```bash
+    make hubpushcontext SERVICE=web FOLDER=web
+```
+
+where serviceName is the name of the service for which the image should be built
+folderName is the folder that contains the docker file used to build the service image
+
+Note that Micro will automagically create and deploy the containers for the different services
+
+##### Running
+
+Enable Port forwarding:
+```bash
+    kubectl port-forward svc/proxy -n micro 8081:443
+    kubectl port-forward svc/api -n micro 8080:443
+```
+
+Start application by running:
+```bash
+    make microk8sup
+```
+
+Once the application is deployed, check the address and host assigned to the ingress:
+
+```bash
+    kubectl get ingress -n micro
+```
+
+Note that it takes a couple of minutes for K8s to assign the IP to the ingress. As such wait for that happens before moving ahead.
+
+If this is the first time running the app in Minikube: Grab the address & the host from the
+result of the command above, and add it to your `/etc/hosts` file.
+
+Finally, access app:
+```
+     minikube service web -n micro
+```
+
+Stop the application:
+```bash
+    make microK8sdown
+```
+Note: you will need stop the port forwarding as well
 
 ### Repo organization
 
@@ -240,7 +313,10 @@ There are three routes that do not share the structure above as they have very l
 
 ### Kubernetes
 
-#### #### **Getting project to run in K8s is still a work in progress**
+The application configuration in K8s can be seen in the diagram below. Note that the diagram shows just one of the different microservices and its associated database.
+The configuration for all other microservices, beyond the shared ingress and API Gateway, is similar to the one depicted in the diagram. Note that Micro builds and spins out the service pods.
+
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-k8s.png)
 
 
 ### Additional information:
