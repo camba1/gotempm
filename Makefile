@@ -67,7 +67,7 @@ microK8sdown:
 microlocalup:
 	#micro server
 	docker-compose up -d pgdb timescaledb redis arangodb nats
-	sleep 20s
+	#sleep 20s
 	make  micrologin
 	make  microstartsrvslocal
 	docker-compose up web
