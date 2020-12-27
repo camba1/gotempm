@@ -64,6 +64,13 @@ Before running the application the first time:
 ```
 #### Running with the Micro Docker image
 
+##### Prerequisites
+
+###### Software
+- [Docker](https://www.docker.com/get-started)  must be installed and running
+
+#### Running the app
+
 To start the application:
 
 - Ensure that Docker is installed and running. Then, execute the following command from a terminal in the goTempM root folder:
@@ -90,9 +97,10 @@ To stop the application:
 
 ##### Prerequisites
 
-###### Minikube & Helm
+###### Software
 
 - Ensure [Micro](https://micro.mu/getting-started) is installed on the host
+- [Docker](https://www.docker.com/get-started)  must be installed and running
 - Ensure that [Minikube](https://minikube.sigs.k8s.io/docs/) is installed and running
 - Similarly, ensure that [Helm](https://helm.sh) is installed on the host.
 - Install the [Micro Helm Chart](https://artifacthub.io/packages/helm/micro/micro)
@@ -162,6 +170,37 @@ Stop the application:
     make microK8sdown
 ```
 Note: you will need stop the port forwarding as well
+
+#### Running with Micro locally
+
+#### Prerequisites
+
+###### Software
+
+- Ensure [Micro](https://micro.mu/getting-started) is installed
+- [Docker](https://www.docker.com/get-started)  must be installed and running
+
+#### Running
+
+Start the micro server:
+```bash
+    micro server
+```
+Wait for the server to be up and ensure that you can access localhost:8080 before continuing to next step.
+Start the application:
+```bash
+    make microlocalup
+```
+
+Access the application in your browser at:
+```
+    http://localhost:3000
+``` 
+
+To stop the application, run:
+```bash
+    make microlocaldown
+```
 
 ### Repo organization
 
