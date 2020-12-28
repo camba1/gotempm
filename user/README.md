@@ -8,10 +8,5 @@ This folder contains code related to the user service. It is organized as follow
 
 Additionally, this folder contains the following files:
 
-- `DockerfileCli`: Build the image for the user client  
-- `Dockerfile`: Build the image for the user service
-- `docker-compose.env`: Environment variable required to run the service when running the service with docker-compose
-
-Note that these docker files expect to be built using the root folder of the whole project as the context 
-(i.e.: do not run the docker build directly in this folder)
-
+- `docker-compose.env`: Environment variable required to run the service when running the service
+- `docker-compose-cli.env`: Environment variable required to run the client when running the service

@@ -141,8 +141,8 @@ Note that Micro will automagically create and deploy the containers for the diff
 Enable Port forwarding:
 ```bash
     kubectl port-forward svc/proxy -n micro 8081:443
-    kubectl port-forward svc/api -n micro 8080:443
 ```
+Note that the application itself does not need this port forwarding, this is only needed so that we can send commands to Micro and start the app.
 
 Start application by running:
 ```bash
