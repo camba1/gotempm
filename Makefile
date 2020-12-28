@@ -41,7 +41,6 @@ microdown:
 microk8sup:
 	kubectl apply -f cicd/K8s/dbsAndBroker -n micro
 	make micrologin
-	#make microstartK8s
 	make microstartsrvs
 	kubectl apply -f cicd/K8s/ingress -n micro
 	kubectl apply -f cicd/K8s/web -n micro
