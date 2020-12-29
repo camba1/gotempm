@@ -51,7 +51,12 @@ In a nutshell. the application functionality is as follows in the backend:
 
 ### Starting the application
 
+**Note:** At this time, when starting multiple services in a row (which the startup scripts do) sometimes causes an error to be thrown. The details of the issue are described in [issue 11](https://bitbucket.org/Bolbeck/gotempm/issues/11/rpc-error-code-canceled-desc-grpc-the).
+As such, portions of the startup scripts may have to be re-run manually to bring the application up fully.
+
+
 ![goTempM landing page](diagramsforDocs/UI_goTempM_Landing_small.png "landing Page")
+
 
 Before running the application the first time:
 
