@@ -363,6 +363,17 @@ The configuration for all other microservices, beyond the shared ingress and API
 ![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-k8s.png)
 
 
+#### Organization
+
+The K8s files live in the `./cicd/K8s` folder, and is organized as follows:
+
+- dbsAndBroker: Contains the manifests for all the databases and for the broker.
+- Ingress: Manifest to create the ingress resource that allows the front end and the back end to communicate
+- web: Manifest for the web front end.
+
+Note that within each of the folders, most related manifests are organized  using a prefix.
+For example, all the front end related services start with the 'web' prefix.
+
 ### Additional information:
 
 Additional information can be found in the individual folders either in a `readme.md` or a `doc.go` file.
