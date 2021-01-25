@@ -1,6 +1,6 @@
 # goTempM
+[![Lint](https://goreportcard.com/badge/github.com/camba1/gotempm)](https://goreportcard.com/report/github.com/camba1/gotempm)
 
-[![Lint](https://goreportcard.com/badge/bitbucket.org/Bolbeck/gotempm)](https://goreportcard.com/report/bitbucket.org/Bolbeck/gotempm)
 
 **goTempM** is a full stack Golang microservices sample application built on top of the Micro platform.
 Note that the original goTemp, which is built directly on the go-Micro framework, is still available and can be found in the [goTemp repo](https://bitbucket.org/Bolbeck/gotemp/).
