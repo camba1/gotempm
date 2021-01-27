@@ -3,7 +3,7 @@
 
 
 **goTempM** is a full stack Golang microservices sample application built on top of the Micro platform.
-Note that the original goTemp, which is built directly on the go-Micro framework, is still available and can be found in the [goTemp repo](https://bitbucket.org/Bolbeck/gotemp/).
+Note that the original goTemp, which is built directly on the go-Micro framework, is still available and can be found in the [goTemp repo](https://github.com/camba1/gotemp).
 It is worth noting that Micro itself uses go-Micro as its underlying framework.
 
 In it current incarnation (this is wip), this mono-repo uses the following stack as backend:
