@@ -236,7 +236,6 @@ Additionally, we have the following files in the root directory as well:
 - `.dockerignore`: Files to be ignored when building service images
 - `.gitignore`: Files to be ignored by git
 - `docker-compose`: File controls the building of the different services and their dependencies
-- `docker-compose-test`: Override compose file that can be used to test different services with their dependencies
 - `go.mod and go.sum`: Go modules control
 - `main.go`: Not used for services yet
 - `Makefile`: shortcuts to common actions
