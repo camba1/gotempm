@@ -1,0 +1,9 @@
+// Create policies to allow the vault agent running in K8s to read the secrets
+
+path "gotempmkv/data/database/arangodb/productsrv" {
+  capabilities = ["read"]
+}
+
+path "gotempmkv/data/broker/nats/productsrv" {
+  capabilities = ["read"]
+}

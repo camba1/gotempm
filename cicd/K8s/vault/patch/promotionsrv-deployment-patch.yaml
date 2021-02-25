@@ -1,0 +1,27 @@
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "gotempm-promotionsrv"
+        vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/agent-inject-secret-postgresql.txt: "gotempmkv/data/database/postgresql/promotionsrv"
+        vault.hashicorp.com/agent-inject-template-postgresql.txt: |
+          {{- with secret "gotempmkv/data/database/postgresql/promotionsrv" -}}
+          export POSTGRES_CONNECT="postgresql://{{ .Data.data.username }}:{{ .Data.data.password }}@{{ .Data.data.server }}/{{ .Data.data.dbname }}?application_name={{ .Data.data.application_name }}"
+          {{- end -}}
+        vault.hashicorp.com/agent-inject-secret-nats.txt: "gotempmkv/data/broker/nats/promotionsrv"
+        vault.hashicorp.com/agent-inject-template-nats.txt: |
+          {{- with secret "gotempmkv/data/broker/nats/promotionsrv" -}}
+          export MICRO_BROKER_ADDRESS="{{ .Data.data.username }}:{{ .Data.data.password }}@{{ .Data.data.server }}"
+          {{- end -}}
+        vault.hashicorp.com/agent-inject-secret-redis.txt: "gotempmkv/data/database/redis/promotionsrv"
+        vault.hashicorp.com/agent-inject-template-redis.txt: |
+          {{- with secret "gotempmkv/data/database/redis/promotionsrv" -}}
+          export MICRO_STORE_ADDRESS="redis://:{{ .Data.data.password }}@{{ .Data.data.server }}:6379"
+          {{- end -}}
+    spec:
+      serviceAccountName: gotempm-promotionsrv
+      containers:
+        - name: promotion
+          command: ['sh', '-c', 'source /vault/secrets/postgresql.txt && source /vault/secrets/nats.txt && source /vault/secrets/redis.txt && ./loader' ]
