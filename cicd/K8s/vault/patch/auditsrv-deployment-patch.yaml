@@ -5,6 +5,7 @@ spec:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "gotempm-auditsrv"
         vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/agent-requests-cpu: "100m"
         vault.hashicorp.com/agent-inject-secret-timescaledb.txt: "gotempmkv/data/database/timescaledb/auditsrv"
         vault.hashicorp.com/agent-inject-template-timescaledb.txt: |
           {{- with secret "gotempmkv/data/database/timescaledb/auditsrv" -}}
