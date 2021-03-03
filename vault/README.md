@@ -59,7 +59,7 @@ Create the secrets and roles needed to populate the credentials for our microser
 
 After everything runs succesfully, the secrets, policies and authentication methods should hae been created in Vault.
 
-![Vault secrets policies and Authorization](../diagramsforDocs/vaultItemsSmall.png) 
+![Vault secrets policies and Authorization](../diagramsforDocs/VaultItemsSmall.png) 
 
 ### Patching the microservices' deployment manifests
 
@@ -99,7 +99,7 @@ We will test the integration for the user service, but a similar process can be 
 
 - In Vault, create a new version of the secret that keeps the postgresDB credentials for the user service (in the following secret engine: gotempmkv -> database -> postgresql -> usersrv).
   
-  ![Path to user service secret ](../diagramsforDocs/vaultSecretsExample.png)
+  ![Path to user service secret ](../diagramsforDocs/VaultSecretsExample.png)
   
 
 - Ensure the new password in the new secret version matches the new password for the appuser DB
