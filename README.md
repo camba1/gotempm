@@ -170,11 +170,31 @@ Finally, access app:
      minikube service web -n micro
 ```
 
-Stop the application:
+
+
+##### Vault integration
+
+The microservices can be integrated with Vault when running in K8s to manage their credentials.
+To enable this integration, please first **refer to the README in the** `./vault` **directory** to setup Vault and all the microservices secrets.
+Once that is configured, and the application is running, just execute :
+
+```bash
+    make vkubpatchdeploy
+```
+
+Once that completes, the microservices' credentials to the different dependencies (DBs, brokers,etc ...) can be managed in Vault.
+
+##### Stopping the application
+
+to stop the application, execute:
+
 ```bash
     make microK8sdown
 ```
-Note: you will need stop the port forwarding as well
+
+Note: The port forwarding to Micro should also be stopped.
+Also, if the Vault Integration is enabled, and the VAULT UI is enabled, then the associated port-forwarding should be stopped as well. 
+
 
 #### Running with Micro locally
 
