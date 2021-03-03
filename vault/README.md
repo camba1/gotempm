@@ -57,6 +57,10 @@ Create the secrets and roles needed to populate the credentials for our services
     make vkubsetup VAULT_TOKEN=<yourVaultToken>
 ```
 
+After everything runs succesfully, the secrets, policies and authentication methods should hae been created in Vault.
+
+![Vault secrets policies and Authorization](../diagramsforDocs/vaultItemsSmall.png) 
+
 ### Patching the services' deployment manifests
 
 The `/cicd/K8s/vault` directory contains the necessary manifests to patch our service deployments to set up interaction with Vault.
@@ -95,7 +99,11 @@ We will test the integration for the user service, but a similar process can be 
 ```
 
 - In Vault, create a new version of the secret that keeps the postgresDB credentials for the user service (in the following secret engine: gotempmkv -> database -> postgresql -> usersrv).
-  Make sure you update the password in the new secret version to match the new passowrd of the appuser DB
+  
+  ![Path to user service secret ](../diagramsforDocs/vaultSecretsExample.png)
+  
+
+- Ensure the new password in the new secret version matches the new password for the appuser DB
 - Restart the rollout of the user service deployment
   
 ```bash
@@ -110,6 +118,27 @@ While this is great, there are one caveat:
 
 - Whenever changes are pushed to any of the services the associated patch must be applied as well
 
+### Removing Vault integration
 
+To remove the components that enable the Vault integration follow the steps below:
+
+- Bring application down (if it is running)
+  
+```bash
+  make microK8sdown
+```
+- Remove secrets, policies and roles from Vault
+  
+```bash
+  make vkubteardown
+```
+
+- Remove secrets engine and K8s authentication from Vault
+  
+```bash
+  make vkubsetupdelete
+```
+
+- Uninstall Vault using Helm (if needed)
 
 
