@@ -17,6 +17,7 @@ In it current incarnation (this is wip), this mono-repo uses the following stack
 - `TimescaleDB` time series DB used for historical audit data storage
 - `ArangoDB`is a multi-model database used for master data storage
 - `Redis` is used to cache data and reduce number of data requests to other services
+- `Vault` for credentials management when running in Kubernetes
 - `Docker` for creating application images
 - `Docker-compose` to run the application
 - `Minikube` to run the application in Kubernetes
@@ -249,6 +250,7 @@ Currently, we have the following:
 - `redis`: Volumes mounted on the redis container as well as config files (if any)
 - `timescaleDB`: Volumes mounted to the Timescale DB container as well as data initialization scripts
 - `user`: User and authentication service
+- `Vault`: Scripts & policies needed to run the app in K8s with Vault
 - `web`: application web frontend
 
 Additionally, we have the following files in the root directory as well:
