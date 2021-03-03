@@ -32,7 +32,7 @@ In terms of the web front end, the stack is as follows:
 
 Below is a diagram that displays the overall setup of the application:
 
-![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v1.png)
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v2.png)
 
 In a nutshell. the application functionality is as follows in the backend:
 
