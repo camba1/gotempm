@@ -17,6 +17,7 @@ In it current incarnation (this is wip), this mono-repo uses the following stack
 - `TimescaleDB` time series DB used for historical audit data storage
 - `ArangoDB`is a multi-model database used for master data storage
 - `Redis` is used to cache data and reduce number of data requests to other services
+- `Vault` for credentials management when running in Kubernetes
 - `Docker` for creating application images
 - `Docker-compose` to run the application
 - `Minikube` to run the application in Kubernetes
@@ -31,7 +32,7 @@ In terms of the web front end, the stack is as follows:
 
 Below is a diagram that displays the overall setup of the application:
 
-![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v1.png)
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v2.png)
 
 In a nutshell. the application functionality is as follows in the backend:
 
@@ -170,11 +171,31 @@ Finally, access app:
      minikube service web -n micro
 ```
 
-Stop the application:
+
+
+##### Vault integration
+
+The microservices can be integrated with Vault when running in K8s to manage their credentials.
+To enable this integration, please first **refer to the README in the** `./vault` **directory** to setup Vault and all the microservices secrets.
+Once that is configured, and the application is running, just execute :
+
+```bash
+    make vkubpatchdeploy
+```
+
+Once that completes, the microservices' credentials to the different dependencies (DBs, brokers,etc ...) can be managed in Vault.
+
+##### Stopping the application
+
+to stop the application, execute:
+
 ```bash
     make microK8sdown
 ```
-Note: you will need stop the port forwarding as well
+
+Note: The port forwarding to Micro should also be stopped.
+Also, if the Vault Integration is enabled, and the VAULT UI is enabled, then the associated port-forwarding should be stopped as well. 
+
 
 #### Running with Micro locally
 
@@ -229,6 +250,7 @@ Currently, we have the following:
 - `redis`: Volumes mounted on the redis container as well as config files (if any)
 - `timescaleDB`: Volumes mounted to the Timescale DB container as well as data initialization scripts
 - `user`: User and authentication service
+- `Vault`: Scripts & policies needed to run the app in K8s with Vault
 - `web`: application web frontend
 
 Additionally, we have the following files in the root directory as well:

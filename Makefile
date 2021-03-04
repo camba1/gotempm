@@ -59,6 +59,9 @@ microK8sdown:
 	kubectl apply -f cicd/K8s/web -n micro
  kdelete:
 	kubectl delete -f $FOLDER -n micro
+## Port froward to access micro running in K8s
+kmicroportfwd:
+	kubectl port-forward svc/proxy -n micro 8081:443
 
 # -------------------------------------------------------------------------------------
 
@@ -204,3 +207,74 @@ authviaapigateway:
 	--data-raw '{"pwd":"1234","email":"duck@mymail.com"}'
 
 
+# -------------------------------------------------------------------------------------
+
+# Run Micro in K8s with Vault for service secret management
+
+# ---- Setup Vault ------
+
+# init secrets and K8s auth in Vault
+vkubinit:
+	kubectl cp vault/scripts vault-0:/vault/file/
+	kubectl exec vault-0 -- /vault/file/scripts/setup.sh $$VAULT_TOKEN
+
+# Populate secrets, create roles and policies
+vkubsetup:
+	kubectl cp vault/policies vault-0:/vault/file/
+	kubectl cp vault/scripts vault-0:/vault/file/
+	kubectl exec vault-0 -- /vault/file/scripts/allServices.sh  $$VAULT_TOKEN
+
+# ---- Integrate Vault with App ------
+
+# Apply patches to the services' deployments so they are visible to the Vault Agent
+# This is done after the pods are already deployed
+vkubpatchdeploy:
+	kubectl apply -f cicd/K8s/vault/serviceAccount -n micro
+	kubectl patch deployment audit-latest -n micro --patch "$$(cat cicd/K8s/vault/patch/auditsrv-deployment-patch.yaml)"
+	kubectl patch deployment customer-latest -n micro --patch "$$(cat cicd/K8s/vault/patch/customersrv-deployment-patch.yaml)"
+	kubectl patch deployment product-latest -n micro --patch "$$(cat cicd/K8s/vault/patch/productsrv-deployment-patch.yaml)"
+	kubectl patch deployment user-latest -n micro --patch "$$(cat cicd/K8s/vault/patch/usersrv-deployment-patch.yaml)"
+	kubectl patch deployment promotion-latest -n micro --patch "$$(cat cicd/K8s/vault/patch/promotionsrv-deployment-patch.yaml)"
+
+# Remove service accounts used to integrate with Vault
+# This is done after application is brought down
+vkubdelserviceaccounts:
+	kubectl delete -f cicd/K8s/vault/serviceAccount -n micro
+
+# ------ Remove setup from Vault -------
+
+# Remove secrets, create roles and policies
+vkubteardown:
+	kubectl cp vault/scripts vault-0:/vault/file/
+	kubectl exec vault-0 -- /vault/file/scripts/deleteAllSrv.sh $$VAULT_TOKEN
+	make vkubcleancontainer
+
+# Remove secret engine and K8s auth in Vault
+vkubsetupdelete:
+	kubectl cp vault/scripts vault-0:/vault/file/
+	kubectl exec vault-0 -- /vault/file/scripts/deleteSetup.sh  $$VAULT_TOKEN
+	make vkubcleancontainer
+
+
+# ---- Vault Misc --------
+
+# Unseal Vault on startup
+vkubunseal:
+	kubectl exec -ti vault-0 -- vault operator unseal $$KEY
+# Enable Vault UI port
+vkubui:
+	kubectl port-forward vault-0 8100:8200
+
+
+# Commands to test services with Vault secrets and no connections in env vars
+vtestnosecrets:
+	micro run --env_vars 'MICRO_BROKER=nats,DISABLE_AUDIT_RECORDS=false' --name user  user/server
+	micro run --env_vars 'MICRO_BROKER=nats' --name audit audit/server
+	micro run --env_vars 'MICRO_BROKER=nats,DISABLE_AUDIT_RECORDS=false' --name product product/server
+	micro run --env_vars 'MICRO_BROKER=nats,DISABLE_AUDIT_RECORDS=false' --name customer customer/server
+	micro run --env_vars 'MICRO_BROKER=nats,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis' --name promotion  promotion/server
+
+# Clean scripts and policies in Vault container
+vkubcleancontainer:
+	kubectl exec vault-0 -- rm -rf /vault/file/scripts/
+	kubectl exec vault-0 -- rm -rf /vault/file/policies/

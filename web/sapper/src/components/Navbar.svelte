@@ -105,9 +105,9 @@
             {/if}
 
             <NavItem>
-                <NavLink href="https://bitbucket.org/Bolbeck/gotempM">
-                   <span style="color: rgb(0, 71, 179);">
-                       <i class="fab fa-bitbucket"></i>
+                <NavLink href="https://github.com/camba1/gotempm">
+                   <span>
+                       <i class="fab fa-github"></i>
                    </span>
                 </NavLink>
             </NavItem>
