@@ -20,7 +20,7 @@ The figure below shows how the Vault Injector will find and populate the secrets
 
 - Ensure [Helm](https://helm.sh/docs/intro/install/) is installed and that it has access to the K8s cluster
 - Install the [Vault Helm chart](https://www.vaultproject.io/docs/platform/k8s/helm/run#standalone-mode) in the cluster.
-  The above link contains instructions to install Vault in 'standalone' mode with a file storage backend. The Agent injector is installed alongside Vault by the Helm chart.
+  The link contains instructions to install Vault in 'standalone' mode with a file storage backend. The Agent injector is installed alongside Vault by the Helm chart.
 - Initialize and unseal Vault
 
 #### Access the Vault UI (optional)
@@ -41,7 +41,7 @@ The current directory (`/vault`) is organized as follows:
 
 ##### Setup
 
-<u>Note:</u> The commands below assume that Vault was installed using the default name. Thus, it assumes that the Vault container is called `vault-0`. If that is not the case, you may need to modify the Makefile with the appropriate container name.
+Note that the commands below assume that Vault was installed using the default name. Thus, it assumes that the Vault container is called `vault-0`. If that is not the case, you may need to modify the Makefile with the appropriate container name.
 Additionally, the scripts need a Vault token in order to authenticate properly. You may use your
 root token (not really recommended). Alternatively, you can create and provide your own token.
 
@@ -57,7 +57,7 @@ Create the secrets and roles needed to populate the credentials for our microser
     make vkubsetup VAULT_TOKEN=<yourVaultToken>
 ```
 
-After everything runs succesfully, the secrets, policies and authentication methods should hae been created in Vault.
+After everything runs successfully, the secrets, policies and authentication methods should hae been created in Vault.
 
 ![Vault secrets policies and Authorization](../diagramsforDocs/VaultItemsSmall.png) 
 
