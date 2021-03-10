@@ -60,7 +60,7 @@ microK8sdown:
  kdelete:
 	kubectl delete -f $FOLDER -n micro
 ## Port froward to access micro running in K8s
-kmicroportfwd:
+microportfwd:
 	kubectl port-forward svc/proxy -n micro 8081:443
 
 # -------------------------------------------------------------------------------------
@@ -145,6 +145,10 @@ microstartsrvslocal:
 	micro run --env_vars 'DB_ADDRESS=localhost:8529,DB_USER=customerUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@localhost,DISABLE_AUDIT_RECORDS=false' --name customer customer/server
 	micro run --env_vars 'POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@localhost/postgres?application_name=promotionSrv,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@localhost,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis,MICRO_STORE_ADDRESS=redis://:TestDB@home2@localhost:6379' --name promotion  promotion/server
 
+# -------------------------------------------------------------------------------------
+# Restart a service in place
+microupdate:
+	micro update $$SVCNAME
 
 # DockerHub build and push images
 hubpush:
