@@ -60,10 +60,12 @@ services:
     command: server
     ports:
       - "8080-8081:8080-8081/tcp"
+      - "2111-2115:2111-2115/tcp"
     volumes:
     - ./audit:/goTempM/audit
     - ./customer:/goTempM/customer
     - ./globalerrors:/goTempM/globalerrors
+    - ./globalMonitoring:/goTempM/globalMonitoring
     - ./globalProtos:/goTempM/globalProtos
     - ./globalUtils:/goTempM/globalUtils
     - ./globalCache:/goTempM/globalCache
@@ -76,7 +78,7 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
-      target: Dev
+      target: dev
     depends_on:
       - microserver
     container_name: gtweb
@@ -86,3 +88,52 @@ services:
     ports:
     - "3000:3000"
     - "10000:10000"
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - pgdbexporter
+      - redisexporter
+      - natsexporter
+      - timescaleexporter
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    env_file: ./grafana/docker-compose.env
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+  pgdbexporter:
+    image: bitnami/postgres-exporter
+    depends_on:
+      - pgdb
+    env_file: ./prometheus/postgresExporter/docker-compose.env
+    ports:
+      - "9187:9187"
+  redisexporter:
+    image: bitnami/redis-exporter
+    depends_on:
+      - redis
+    env_file: ./prometheus/redisExporter/docker-compose.env
+    ports:
+      - "9121:9121"
+  natsexporter:
+    image: natsio/prometheus-nats-exporter
+    depends_on:
+      - nats
+    ports:
+      - "7777:7777"
+    command: [ "-varz", "http://nats:8222" ]
+  timescaleexporter:
+    image: bitnami/postgres-exporter
+    depends_on:
+      - timescaledb
+    env_file: ./prometheus/timescaledbExporter/docker-compose.env
+    ports:
+      - "9188:9187"
