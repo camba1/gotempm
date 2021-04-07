@@ -1,0 +1,48 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 30s
+  # scrape_timeout is set to the global default (10s).
+
+  external_labels:
+    appname: gotemp
+
+scrape_configs:
+  - job_name: arangodb
+    metrics_path: /_admin/metrics
+    basic_auth:
+      username: root
+      password: TestDB@home2
+    static_configs:
+      - targets:
+          [arangodb:8529]
+  - job_name: pgdbexporter
+    static_configs:
+      - targets: [pgdbexporter:9187]
+        labels:
+          gtsource: postgres
+  - job_name: redisexporter
+    static_configs:
+      - targets: [redisexporter:9121]
+  - job_name: natsexporter
+    static_configs:
+      - targets: [natsexporter:7777]
+  - job_name: timescaleexporter
+    static_configs:
+      - targets: [ timescaleexporter:9187 ]
+        labels:
+          gtsource: timescale
+  - job_name: auditsrv
+    static_configs:
+      - targets: [microserver:2115] # [ auditsrv:2115 ]
+  - job_name: customersrv
+    static_configs:
+      - targets: [microserver:2112] # [ customersrv:2112 ]
+  - job_name: productsrv
+    static_configs:
+      - targets: [microserver:2113] # [ productsrv:2113 ]
+  - job_name: promotionsrv
+    static_configs:
+      - targets: [microserver:2114] # [ promotionsrv:2114 ]
+  - job_name: usersrv
+    static_configs:
+      - targets: [microserver:2111] # [ usersrv:2111 ]
