@@ -10,6 +10,8 @@ require (
 	github.com/jackc/pgx/v4 v4.6.0
 	github.com/lib/pq v1.3.0 // indirect
 	github.com/micro/micro/v3 v3.1.1
+	github.com/prometheus/client_golang v1.1.0
+	github.com/prometheus/procfs v0.0.5 // indirect
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
 	google.golang.org/protobuf v1.25.0
 
