@@ -11,7 +11,8 @@ import (
 
 // MyBroker is a Struct type that contains all the broker functionality
 type MyBroker struct {
-	Br broker.Broker
+	Br                     broker.Broker
+	SubscribeHandleWrapper func(fn broker.Handler) broker.Handler
 }
 
 // ProtoToByte converts a proto message to a byte slice so that it can be sent out to the broker
@@ -62,10 +63,16 @@ func (mb *MyBroker) SubToMsg(subHandler broker.Handler, topic string, queueName 
 		return err
 	}
 
+	// Check for optional wrapper passed in
+	subscriberHandler := subHandler
+	if mb.SubscribeHandleWrapper != nil {
+		subscriberHandler = mb.SubscribeHandleWrapper(subHandler)
+	}
+
 	if queueName != "" {
-		_, err = mb.Br.Subscribe(topic, subHandler, broker.Queue(queueName))
+		_, err = mb.Br.Subscribe(topic, subscriberHandler, broker.Queue(queueName))
 	} else {
-		_, err = mb.Br.Subscribe(topic, subHandler)
+		_, err = mb.Br.Subscribe(topic, subscriberHandler)
 	}
 	if err != nil {
 		log.Printf(glErr.BrkUnableToSetSubs(topic, err))
@@ -80,7 +87,7 @@ func (mb *MyBroker) SubToMsg(subHandler broker.Handler, topic string, queueName 
 //func (mb *MyBroker) GetMsg(p broker.Event) (string, map[string]string, []byte, error) {
 func (mb *MyBroker) GetMsg(p *broker.Message) (string, map[string]string, []byte, error) {
 	//fmt.Printf("Received message for subscription Topic %s: %v\n", p.Topic(), p.Message().Header)
-	fmt.Printf("Received message for subscription Topic %s: %v\n", "", p.Header)
+	fmt.Printf("Received message for subscription  %s: %s\n", p.Header["objectName"], p.Header["actionType"])
 	//return p.Topic(), p.Message().Header, p.Message().Body, nil
 	//topic is not provided in Micro V3
 	return "CHANGEME", p.Header, p.Body, nil

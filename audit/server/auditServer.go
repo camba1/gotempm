@@ -93,6 +93,9 @@ func connectToDB() *pgx.Conn {
 
 func main() {
 
+	// setup metrics collector
+	//metricsWrapper := newMetricsWrapper()
+
 	//instantiate service
 	//service := micro.NewService(
 	//	micro.Name(serviceName),
@@ -118,6 +121,9 @@ func main() {
 	mb.Br = microBroker.DefaultBroker
 	defer mb.Br.Disconnect()
 
+	// setup metrics collector for broker messages
+	mb.SubscribeHandleWrapper = newMetricsSubscriberWrapper()
+
 	//topic := "test"
 	//queueName := "test"
 	//_ = mb.subToMsg( getMsg, topic,queueName)
@@ -131,6 +137,9 @@ func main() {
 	if err != nil {
 		log.Printf("Error subscribing to message: Error: %v\n", err)
 	}
+
+	// Initialize http server for metrics export
+	go runHttp()
 
 	// Run Service
 	err = service.Run()
