@@ -173,6 +173,10 @@ func loadConfig() {
 	}
 }
 func main() {
+
+	// setup metrics collector
+	metricsWrapper := newMetricsWrapper()
+
 	// instantiate service
 	//service := micro.NewService(
 	//	micro.Name(serviceName),
@@ -182,6 +186,7 @@ func main() {
 	service := microServ.New(
 		microServ.Name(serviceName),
 		microServ.WrapHandler(AuthWrapper),
+		microServ.WrapHandler(metricsWrapper),
 	)
 
 	service.Init()
@@ -202,6 +207,9 @@ func main() {
 	//mb.Br = service.Options().Broker
 	mb.Br = microBroker.DefaultBroker
 	defer mb.Br.Disconnect()
+
+	// Initialize http server for metrics export
+	go runHttp()
 
 	//  Run Service
 	err = service.Run()
