@@ -18,9 +18,6 @@ In it current incarnation (this is wip), this mono-repo uses the following stack
 - `ArangoDB`is a multi-model database used for master data storage
 - `Redis` is used to cache data and reduce number of data requests to other services
 - `Vault` for credentials management when running in Kubernetes
-- `Docker` for creating application images
-- `Docker-compose` to run the application
-- `Minikube` to run the application in Kubernetes
 
 In terms of the web front end, the stack is as follows:
 
@@ -30,9 +27,20 @@ In terms of the web front end, the stack is as follows:
 - `Sveltestrap` provides the css framework and is based on bootstrap
 - `Font Awesome` to display icons in the application
 
+As far as observability, the application uses:
+
+- `Prometheus` scrapes metrics from the microservices, databases and broker
+- `Grafana` provides graphic visualization of application metrics
+
+Finally, for orchestration, the stack is as follows:
+
+- `Docker` for creating application images
+- `Docker-compose` to run the application
+- `Minikube` to run the application in Kubernetes
+
 Below is a diagram that displays the overall setup of the application:
 
-![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v2.png)
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-micro-v3.png)
 
 In a nutshell. the application functionality is as follows in the backend:
 
@@ -91,6 +99,13 @@ At that point, yo can open your browser and navigate to:
 ```
     http://localhost:3000
 ``` 
+
+Additionally, observability tooling can be accessed at the addresses below 
+
+```
+    Prometheus:  http://localhost:9090
+    Grafana:     http://localhost:3001
+```
 
 To stop the application:
 
@@ -240,13 +255,16 @@ Currently, we have the following:
 - `diagramforDocs`: Diagrams used in the readme documents
 - `globalCache` : Enables Micro to use Redis as a cache store which can then be used in our services
 - `globalErrors`: Generic errors shared package
+- `globalMonitoring`: Generic monitoring utilities shared package
 - `globalProtos`: Generic protobuf message definitions shared across packages
 - `globalUtils`: Generic utilities shared package
+- `grafana`: Grafana configuration and custom dashboard definitions
 - `micro` : Hosts the custom Dockerfile that is used to run Micro.
 - `nats`: NATS dockerfile and configuration
 - `postgres`: Volumes mounted to the PostgreSQL DB container as well as data initialization scripts
 - `product`: Product master data service
 - `promotion`: Promotion service to track product discounts (this was the first service built)
+- `prometheus`: Prometheus configuration and exporters
 - `redis`: Volumes mounted on the redis container as well as config files (if any)
 - `timescaleDB`: Volumes mounted to the Timescale DB container as well as data initialization scripts
 - `user`: User and authentication service
