@@ -17,6 +17,7 @@ micrologin:
 microserveup:
 	docker-compose up -d microserver
 	docker-compose up -d pgdb timescaledb redis arangodb nats
+	docker-compose up -d grafana
 	sleep 20s
 	docker exec microservercont  make  micrologin
 
@@ -24,6 +25,7 @@ microserveup:
 microup:
 	docker-compose up -d microserver
 	docker-compose up -d pgdb timescaledb redis arangodb nats
+	docker-compose up -d grafana
 	sleep 20s
 	docker exec microservercont  make  micrologin
 	docker exec microservercont  make  microstartsrvs
@@ -69,6 +71,7 @@ microportfwd:
 microlocalup:
 	#micro server
 	docker-compose up -d pgdb timescaledb redis arangodb nats
+	docker-compose up grafana
 	#sleep 20s
 	make  micrologin
 	make  microstartsrvslocal
