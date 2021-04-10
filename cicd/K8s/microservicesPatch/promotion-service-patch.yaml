@@ -1,0 +1,5 @@
+spec:
+  ports:
+  - name: "2114"
+    port: 2114
+    targetPort: 2114
