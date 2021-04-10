@@ -406,9 +406,12 @@ The configuration for all other microservices, beyond the shared ingress and API
 
 The K8s files live in the `./cicd/K8s` folder, and is organized as follows:
 
-- dbsAndBroker: Contains the manifests for all the databases and for the broker.
-- Ingress: Manifest to create the ingress resource that allows the front end and the back end to communicate
-- web: Manifest for the web front end.
+- `dbsAndBroker`: Contains the manifests for all the databases and for the broker.
+- `Ingress`: Manifest to create the ingress resource that allows the frontend, and the back end to communicate
+- `microservicesPatch`: contains the manifests to open the ports required to scrape metrics from the microservices
+- `monitoring`: holds the manifests to deploy monitoring resources (Prometheus, Grafana)
+- `Vault`: Manifests to create the service accounts and patches to integrate the application with Vault
+- `web`: Manifest for the web front end.
 
 Note that within each of the folders, most related manifests are organized  using a prefix.
 For example, all the front end related services start with the 'web' prefix.
