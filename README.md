@@ -186,8 +186,6 @@ Finally, access app:
      minikube service web -n micro
 ```
 
-
-
 ##### Vault integration
 
 The microservices can be integrated with Vault when running in K8s to manage their credentials.
@@ -199,6 +197,14 @@ Once that is configured, and the application is running, just execute :
 ```
 
 Once that completes, the microservices' credentials to the different dependencies (DBs, brokers,etc ...) can be managed in Vault.
+
+##### Observability
+
+Observability tools access while the application is running in K8s (with or without Vault):
+
+- Prometheus: `minikube service prometheus`
+- Grafana: `minikube service grafana`
+
 
 ##### Stopping the application
 
@@ -399,8 +405,13 @@ There are three routes that do not share the structure above as they have very l
 The application configuration in K8s can be seen in the diagram below. Note that the diagram shows just one of the different microservices and its associated database.
 The configuration for all other microservices, beyond the shared ingress and API Gateway, is similar to the one depicted in the diagram. Note that Micro builds and spins out the service pods.
 
-![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-k8s.png)
+![Diagram showing goTempM components](diagramsforDocs/goTempM_Diagram-k8s_v2.png)
 
+Notes:
+- When running the application with Vault, the microservices secrets will be superseded by the secrets stored in Vault.
+- The microservices, ArangoDB and NATS have Prometheus metric scrape endpoints built-in. On the other hand, Redis, PostgresDB and TimescaleDB use adapter containers to expose the data to Prometheus.
+- To keep the diagram simple, the K8s services for the database, Vault, Prometheus and Grafana are not displayed in the diagram.
+- Since Micro automatically manages the K8s objects for the microservices, exposing the metrics ports to Prometheus is done by patching the Micro created K8s services via service patches. The patches can be found under `cicd/K8s/microservicesPatch`
 
 #### Organization
 
