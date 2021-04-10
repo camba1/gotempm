@@ -41,16 +41,22 @@ spec:
         - containerPort: 6379
         resources: {}
         volumeMounts:
-#        - mountPath: /data
-#          name: redis-claim0
         - mountPath: /usr/local/etc/redis/
           name: redis-config-configmap
+      - env:
+          - name: REDIS_ADDR
+            valueFrom:
+              secretKeyRef:
+                key: REDIS_ADDR
+                name: redisexporter-secret
+        image: bitnami/redis-exporter
+        imagePullPolicy: ""
+        name: redisexporter
+        ports:
+          - containerPort: 9121
       restartPolicy: Always
       serviceAccountName: ""
       volumes:
-#      - name: redis-claim0
-#        persistentVolumeClaim:
-#          claimName: redis-claim0
       - name: redis-config-configmap
         configMap:
           name: redis-config-configmap
