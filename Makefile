@@ -122,14 +122,15 @@ micropromotionsrv:
 # Start all services at once in Docker or K8s
 microstartsrvs:
 	micro run --env_vars 'POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/appuser,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false' --name user  user/server
-	sleep 12s
+	sleep 15s
 	micro run --env_vars 'DB_CONNECT=postgresql://postgres:TestDB@home2@timescaledb/postgres,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats' --name audit audit/server
-	sleep 12s
+	sleep 15s
 	micro run --env_vars 'DB_ADDRESS=arangodb:8529,DB_USER=productUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false' --name product product/server
-	sleep 12s
+	sleep 15s
 	micro run --env_vars 'DB_ADDRESS=arangodb:8529,DB_USER=customerUser,DB_PASS=TestDB@home2,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false' --name customer customer/server
-	sleep 12s
+	sleep 15s
 	micro run --env_vars 'POSTGRES_CONNECT=postgresql://postgres:TestDB@home2@pgdb/postgres,MICRO_BROKER=nats,MICRO_BROKER_ADDRESS=natsUser:TestDB@home2@nats,DISABLE_AUDIT_RECORDS=false,MICRO_STORE=redis,MICRO_STORE_ADDRESS=redis://:TestDB@home2@redis:6379' --name promotion  promotion/server
+	sleep 15s
 
 # -------------------------------------------------------------------------------------
 
