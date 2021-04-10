@@ -44,12 +44,15 @@ microk8sup:
 	kubectl apply -f cicd/K8s/dbsAndBroker -n micro
 	make micrologin
 	make microstartsrvs
+	kubectl apply -f cicd/K8s/monitoring -n micro
+	make kpatchservices
 	kubectl apply -f cicd/K8s/ingress -n micro
 	kubectl apply -f cicd/K8s/web -n micro
 
 ## Stop the application running in K8s
 microK8sdown:
 	make microkillsrvs
+	kubectl delete -f cicd/K8s/monitoring -n micro
 	kubectl delete -f cicd/K8s/dbsAndBroker -n micro
 	kubectl delete -f cicd/K8s/ingress -n micro
 	kubectl delete -f cicd/K8s/web -n micro
@@ -64,6 +67,15 @@ microK8sdown:
 ## Port froward to access micro running in K8s
 microportfwd:
 	kubectl port-forward svc/proxy -n micro 8081:443
+
+# Patch microservices yaml to enable metric scraping
+kpatchservices:
+	kubectl patch svc audit -n micro --patch "$$(cat ./cicd/K8s/microservicesPatch/audit-service-patch.yaml)"
+	kubectl patch svc customer -n micro --patch "$$(cat ./cicd/K8s/microservicesPatch/customer-service-patch.yaml)"
+	kubectl patch svc product -n micro --patch "$$(cat ./cicd/K8s/microservicesPatch/product-service-patch.yaml)"
+	kubectl patch svc promotion -n micro --patch "$$(cat ./cicd/K8s/microservicesPatch/promotion-service-patch.yaml)"
+	kubectl patch svc user -n micro --patch "$$(cat ./cicd/K8s/microservicesPatch/user-service-patch.yaml)"
+
 
 # -------------------------------------------------------------------------------------
 
