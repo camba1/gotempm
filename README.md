@@ -179,7 +179,11 @@ Once the application is deployed, check the address and host assigned to the ing
 Note that it takes a couple of minutes for K8s to assign the IP to the ingress. As such wait for that happens before moving ahead.
 
 If this is the first time running the app in Minikube: Grab the address & the host from the
-result of the command above, and add it to your `/etc/hosts` file.
+result of the command above, and add it to your `/etc/hosts` file:
+
+```
+    <ipAddress> gotempm.tst
+```
 
 Finally, access app:
 ```
