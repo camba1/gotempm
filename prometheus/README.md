@@ -18,3 +18,6 @@ Notes:
 - Since Micro automatically manages the K8s objects for the microservices,
 exposing the metrics ports to Prometheus is done by patching the Micro created K8s services via service patches. 
 The patches can be found under `cicd/K8s/microservicesPatch`
+- The microservices integration with Prometheus was made in two parts: 
+    - `globalMonitoring/prometheus` provides wrapper definitions common to all services
+    - `<serviceName>/server/monitoring` integrates the wrappers as middleware in the microservice
