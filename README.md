@@ -1,5 +1,5 @@
 # goTempM
-[![Lint](https://goreportcard.com/badge/github.com/camba1/gotempm)](https://goreportcard.com/report/github.com/camba1/gotempm)
+
 
 
 **goTempM** is a full stack Golang microservices sample application built on top of the Micro platform.
